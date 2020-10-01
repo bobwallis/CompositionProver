@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+    <title>Composition Prover</title>
+    <meta name="theme-color" content="#002856">
+    <meta name="description" content="Online version of GSiril, a program for proving touches.">
+    <link rel="stylesheet" media="all" href="style.css">
+    <link rel="preload" href="app.js" as="script">
+	</head>
+	<body>
+    <header id="head">
+      <h1>Blueline | <span>Composition Prover</span></h1>
+      <img id="aboutButton" src="about.svg">
+    </header>
+    <div id="toolbar">
+      <div id="toolbar_left">
+        <select id="language">
+          <option value="gsiril">GSiril</option>
+          <option value="msiril" selected="selected">MicroSiril</option>
+        </select>
+      </div>
+      <div id="toolbar_right">
+        <input id="go" value="Prove" type="submit">
+      </div>
+    </div>
+		<div id="input"></div>
+    <div id="output">
+      <h2>Output</h2>
+      <div id="sirilOutput"><p class="placeholder">Enter code into the editor to the left.</p><p class="placeholder">Then click "Prove".</p></div>
+    </div>
+    <div id="overlay" class="hide"></div>
+    <div id="about" class="hide">
+      <p>This page contains a simple web interface for Richard Smith's <a href="http://www.ex-parrot.com/~richard/gsiril/"></a>GSiril</a> touch proving program.</p>
+      <p>It contains:</p>
+      <ol>
+        <li>a code editor that supports syntax highlighting;</li>
+        <li>a version of the GSiril program that has been compiled to Javascript so that it can run in a web browser;</li>
+        <li>some code to join these two things together.</li>
+      </ol>
+      <p>The source code is <a href="https://github.com/bobwallis/CompositionProver">made available</a> for interested people, and released under the GPL.</p>
+      <p>Click outside this box to close it.</p>
+    </div>
+		<script src="app.js" defer></script>
+	</body>
+</html>

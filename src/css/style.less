@@ -1,0 +1,227 @@
+html, body {
+    padding: 0;
+    margin: 0;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+    font-size: 14px;
+}
+
+#head {
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 36px;
+    padding: 0;
+    margin: 0;
+    background-color: #002856;
+    color: #E0DED9;
+    line-height: 36px;
+    user-select: none;
+
+    h1 {
+        float: left;
+        margin: 0;
+        padding: 0 9px;
+        font-size: 19px;
+        font-weight: normal;
+        font-family: Palatino,"Palatino Linotype","Palatino LT STD","URW Palladio L","Book Antiqua",Constantia,serif;
+        text-transform: uppercase;
+        span {
+            text-transform: capitalize;
+        }
+    }
+
+    #aboutButton {
+        opacity: 0.75;
+        width: 28px;
+        height: 28px;
+        margin: 4px;
+        float: right;
+        transition: opacity .2s cubic-bezier(0.23, 1, 0.32, 1);
+        &:hover {
+            cursor: pointer;
+            opacity: 0.9;
+        }
+    }
+}
+
+#toolbar {
+    position: absolute;
+    z-index: 10;
+    top: 36px;
+    left: 0;
+    width: 100%;
+    height: 35px;
+    padding: 0;
+    margin: 0;
+    background-color: #F3F3F3;
+    border-bottom: 1px solid #E0DED9;
+    color: #000;
+    #toolbar_left {
+        box-sizing: border-box;
+        width: 45%;
+        height: 100%;
+        padding: 0 5px;
+        float: left;
+        text-align: left;
+    }
+    #toolbar_right {
+        box-sizing: border-box;
+        width: 15%;
+        height: 100%;
+        padding: 0 5px;
+        float: left;
+        text-align: right;
+        border-right: 1px solid rgba(0,0,0,0.1);
+    }
+
+    #go {
+        display: inline-block;
+        box-sizing: border-box;
+        height: 25px;
+        margin: 5px;
+        padding: 0 9px;
+        background-color: #DDD;
+        background-image: linear-gradient(to bottom, #FFF 0%,#DDD 100%);
+        color: #000;
+        border-radius: 2px;
+        border: 1px solid #AAA;
+        font-size: 11px;
+        text-transform: uppercase;
+        text-align: center;
+        transition: background-color .2s ease,color .2s ease;
+        &:hover {
+            cursor: pointer;
+            background-color: #FFF;
+            background-image: linear-gradient(to bottom, #FFF 0%,#FFF 100%);
+        }
+    }
+    select {
+        display: block;
+        font-size: 11px;
+        color: #000;
+        height: 25px;
+        margin: 5px;
+        padding: 0 15px 0 9px;
+        box-sizing: border-box;
+        border: 1px solid #AAA;
+        border-radius: 2px;
+        appearance: none;
+        background-color: #DDD;
+        background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23002856%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'),
+          linear-gradient(to bottom, #FFF 0%,#DDD 100%);
+        background-repeat: no-repeat, repeat;
+        background-position: right .7em top 50%, 0 0;
+        background-size: .65em auto, 100%;
+        &::-ms-expand {
+            display: none;
+        }
+        &:hover {
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23002856%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'),
+              linear-gradient(to bottom, #FFF 0%,#FFF 100%);
+        }
+        &:focus {
+            outline: none;
+        }
+        & option {
+            font-weight: normal;
+        }
+    }
+}
+
+#input, #output {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    max-height: 100%;
+    box-sizing: border-box;
+    padding: 72px 0 0 0;
+    margin: 0;
+}
+
+#input {
+    width: 60%;
+    left: 0;
+    border-right: 1px solid rgba(0,0,0,0.1);
+}
+
+#output {
+    width: 40%;
+    left: 60%;
+    background-color: #FCFCFC;
+    h2 {
+        margin: 18px 0 18px 36px;
+        padding: 0;
+        font-size: 16px;
+        color: #666;
+    }
+    #sirilOutput {
+        padding: 0 0 0 44px;
+        font-family: monospace;
+        white-space: pre;
+        .placeholder {
+            color: #666;
+        }
+        .error {
+            color: #F66;
+        }
+    }
+}
+
+#overlay {
+    position: absolute;
+    z-index: 99;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #FFF;
+    transition: opacity .4s cubic-bezier(0.23, 1, 0.32, 1);
+    &.hide {
+        opacity: 0;
+        pointer-events: none;
+    }
+    &.active {
+        opacity: 0.8;
+        pointer-events: auto;
+    }
+}
+
+#about {
+    position: absolute;
+    z-index: 100;
+    left: 50%;
+    transform: translateX(-265px);
+    width: 450px;
+    padding: 25px 40px;
+    background-color: #FFF;
+    box-shadow: 0 8px 25px rgba(0,0,0,.4);
+    font-size: 16px;
+    transition: all .4s cubic-bezier(0.23, 1, 0.32, 1);
+    hyphens: auto;
+    &.hide {
+        top: 0;
+        opacity: 0;
+        pointer-events: none;
+    }
+    &.active {
+        top: 75px;
+        opacity: 1;
+        pointer-events: auto;
+    }
+    ol {
+        counter-reset: list;
+        li {
+            list-style: none;
+            &:before {
+                content: "(" counter(list, lower-alpha) ") ";
+                counter-increment: list;
+            }
+        }
+    }
+}
+
+.ͼ1.cm-wrap.cm-focused {
+    outline: none !important;
+}

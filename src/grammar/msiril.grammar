@@ -1,0 +1,95 @@
+@top { statement+ }
+
+statement {
+    DefinitionStatement |
+    ExitStatement |
+    BellsStatement |
+    ExtentsStatement |
+    RoundsStatement |
+    ImportStatement |
+    ProveStatement |
+    primary-expression
+}
+
+DefinitionStatement { identifier ( "=" | "?=" ) expression }
+
+ExitStatement    { kw<"end"> | kw<"quit"> | kw<"exit"> }
+
+BellsStatement   { IntegerLiteral kw<"bells"> }
+
+ExtentsStatement { IntegerLiteral kw<"extents"> }
+
+RoundsStatement  { kw<"rounds"> TranspositionLiteral }
+
+ImportStatement  { kw<"import"> ( identifier | StringLiteral ) }
+
+ProveStatement   { kw<"prove"> expression }
+
+expression {
+    AssignmentExpression
+}
+
+AssignmentExpression {
+    SequenceExpression |
+    identifier "=" AssignmentExpression
+}
+
+SequenceExpression {
+    RepetitionExpression |
+    RepetitionExpression "," SequenceExpression
+}
+
+RepetitionExpression {
+    IntegerLiteral Star? RepetitionExpression |
+    kw<"repeat"> Star? RepetitionExpression
+}
+
+primary-expression {
+    "(" expression ")" |
+    "{" alternative (";" alternative)* ";"? "}" |
+    kw<"break"> |
+    identifier |
+    StringLiteral |
+    PlaceNotationLiteral |
+    TranspositionLiteral
+}
+
+alternative {
+    expression |
+    PatternLiteral ":" expression
+}
+
+
+@skip {
+    whitespace |
+    LineComment
+}
+
+kw<term> { @specialize[name={term}]<identifier, term> }
+
+@tokens {
+    identifier           { alpha | (alpha id-char-seq) }
+    id-char-seq          { alnum+ }
+    alnum                { alpha | digit }
+    IntegerLiteral       { digit+ }
+    StringLiteral        {  "\"" s-char-seq+ "\"" }
+    Star                 { "*" }
+    s-char-seq           { s-char+ }
+    s-char               { !["\@$#] | escape-seq | control-seq }
+    control-seq          { "@" | "$$" | "$" | "#" }
+    escape-seq           { "\\" $['\nt@$#] }
+    PlaceNotationLiteral { ( "+" | "&" ) pn-char-seq }
+    TranspositionLiteral { "'" bell-char-seq "'" }
+    PatternLiteral       { "/" pat-char-seq "/" }
+    pn-char-seq          { pn-char+ }
+    bell-char-seq        { bell-char+ }
+    pat-char-seq         { pat-char+ }
+    pn-char              { $[.xX] | "-" | bell-char }
+    pat-char             { $[?,*] | "[" bell-char-seq "]" | bell-char+ }
+    bell-char            { $[0-9a-hj-np-wyzA-HJ-NP-WYZ] }
+    alpha                { $[a-zA-Z_] }
+    digit                {  $[0-9] }
+    whitespace           { std.whitespace+ }
+    LineComment          { "//" ![\n]* | "/" ![\n/]* }
+    @precedence { PlaceNotationLiteral, TranspositionLiteral, PatternLiteral, StringLiteral, IntegerLiteral, LineComment }
+}
