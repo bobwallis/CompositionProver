@@ -8,6 +8,7 @@ var gzip         = require( 'gulp-gzip' );
 var less         = require( 'gulp-less' );
 var autoprefixer = require( 'gulp-autoprefixer' );
 var cleanCSS     = require( 'gulp-clean-css' );
+var imagemin     = require( 'gulp-imagemin' );
 var typogr       = require( 'gulp-typogr' );
 var htmlmin      = require( 'gulp-htmlmin' );
 var terser       = require( 'gulp-terser' );
@@ -67,6 +68,14 @@ function html() {
 };
 
 
+// Images
+function img() {
+	return gulp.src( ['src/img/*.svg'] )
+		.pipe( imagemin() )
+		.pipe( gulp.dest( DEST ) )
+};
+
+
 // Compress
 function compressGzip() {
 	return gulp.src( [DEST+'/**/*.svg', DEST+'/**/*.html', DEST+'/**/*.js', DEST+'/**/*.css'] )
@@ -83,5 +92,5 @@ function watch() {
 };
 
 
-exports.default = gulp.series( gulp.parallel( css, html, js, favicon ), compressGzip );
+exports.default = gulp.series( gulp.parallel( css, html, js, img, favicon ), compressGzip );
 exports.watch = watch;
