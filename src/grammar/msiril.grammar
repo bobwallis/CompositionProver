@@ -1,4 +1,4 @@
-@top { statement+ }
+@top MSiril { statement+ }
 
 statement {
     DefinitionStatement |
@@ -65,7 +65,7 @@ alternative {
     LineComment
 }
 
-kw<term> { @specialize[name={term}]<identifier, term> }
+kw<term> { @specialize[@name={term}]<identifier, term> }
 
 @tokens {
     identifier           { alpha | (alpha id-char-seq) }

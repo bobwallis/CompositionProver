@@ -1,5 +1,4 @@
-import { drawSelection, keymap } from '@codemirror/next/view';
-import { EditorView } from '@codemirror/next/view';
+import { EditorView, drawSelection, keymap, highlightActiveLine } from '@codemirror/next/view';
 import { EditorState } from '@codemirror/next/state';
 import { history, historyKeymap } from '@codemirror/next/history';
 import { lineNumbers } from '@codemirror/next/gutter';
@@ -7,8 +6,9 @@ import { defaultKeymap } from '@codemirror/next/commands';
 import { bracketMatching } from '@codemirror/next/matchbrackets';
 import { closeBrackets, closeBracketsKeymap } from '@codemirror/next/closebrackets';
 import { autocompletion, completionKeymap } from '@codemirror/next/autocomplete';
-import { highlightActiveLine, highlightSelectionMatches } from '@codemirror/next/highlight-selection';
-import { defaultHighlighter } from '@codemirror/next/highlight';
+import { searchKeymap, highlightSelectionMatches } from '@codemirror/next/search';
+import { lintKeymap } from "@codemirror/next/lint"
+import { defaultHighlightStyle } from '@codemirror/next/highlight';
 import { msiril } from "./lang-msiril"
 
 let view = new EditorView( {
@@ -18,17 +18,19 @@ let view = new EditorView( {
             history(),
             drawSelection(),
             EditorState.allowMultipleSelections.of(true),
-            defaultHighlighter,
+            defaultHighlightStyle,
             bracketMatching(),
             closeBrackets(),
             autocompletion(),
             highlightActiveLine(),
             highlightSelectionMatches(),
-            keymap([
+            keymap.of([
                 ...closeBracketsKeymap,
                 ...defaultKeymap,
+                ...searchKeymap,
                 ...historyKeymap,
-                ...completionKeymap
+                ...completionKeymap,
+                ...lintKeymap
             ]),
             msiril()
         ]

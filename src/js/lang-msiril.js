@@ -1,29 +1,36 @@
 import { parser } from './lezer-msiril';
-import { LezerSyntax, indentNodeProp, continuedIndent, foldNodeProp } from '@codemirror/next/syntax';
-import { styleTags } from '@codemirror/next/highlight';
+import { LezerLanguage, indentNodeProp, foldNodeProp, continuedIndent } from '@codemirror/next/language';
+import { styleTags, tags } from '@codemirror/next/highlight';
 
-const msirilSyntax = LezerSyntax.define(parser.withProps(indentNodeProp.add({
-    Declaration: continuedIndent()
-}), styleTags({
-    "end quit exit bells extends rounds import prove repeat break": "keyword",
-    BellsStatement: "keyword",
-    PlaceNotationLiteral: "regexp",
-    PatternLiteral: "regexp",
-    IntegerLiteral: "number",
-    StringLiteral: "string",
-    LineComment: "lineComment",
-    Star: "modifier",
-    "=": "punctuation definition",
-    "( )": "paren",
-    "[ ]": "squareBracket",
-    "{ }": "brace",
-    ", ;": "separator"
-})), {
+const msirilSyntax = LezerLanguage.define( {
+    parser: parser.configure( {
+        props: [
+            indentNodeProp.add( {
+                Declaration: continuedIndent()
+            } ),
+            foldNodeProp.add({}),
+            styleTags( {
+                "end quit exit bells extends rounds import prove repeat break": tags.keyword,
+                BellsStatement: tags.keyword,
+                PlaceNotationLiteral: tags.regexp,
+                PatternLiteral: tags.regexp,
+                IntegerLiteral: tags.number,
+                StringLiteral: tags.string,
+                LineComment: tags.lineComment,
+                Star: tags.modifier,
+                "=": tags.definitionOperator,
+                "( )": tags.paren,
+                "[ ]": tags.squareBracket,
+                "{ }": tags.brace,
+                ", ;": tags.separator
+            } )
+        ]
+    } ),
     languageData: {
         closeBrackets: { brackets: ["(", "{", "'", '"'] },
         commentTokens: { line: "//" }
     }
-});
+} );
 
 /// Returns an extension that installs the syntax provider.
 function msiril() {
