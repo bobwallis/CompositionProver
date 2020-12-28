@@ -9,3 +9,5 @@ Having a JavaScript version of the program also allows for it to be easily distr
 Notes on compiling GSiril to Javascript Web Worker are in the `./src/gsiril/` folder.
 
 The remainder of the project is a simple single-page web app which glues together this Web Worker with an in-browser code editor [(Codemirror)](https://codemirror.net/) which supports syntax highlighting, line numbers, etc.
+
+The project is published online at [bobwallis.github.io/CompositionProver/](https://bobwallis.github.io/CompositionProver/).
