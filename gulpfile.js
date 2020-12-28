@@ -49,7 +49,7 @@ function js() {
             plugins: [nodeResolve()]
         } )
 			.pipe( source( 'app.js' ) )
-//			.pipe( streamify( terser() ) )
+			.pipe( streamify( terser() ) )
             .pipe( gulp.dest( DEST ) )
     );
 };
