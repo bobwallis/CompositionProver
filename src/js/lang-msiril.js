@@ -1,6 +1,6 @@
 import { parser } from './lezer-msiril';
-import { LezerLanguage, indentNodeProp, foldNodeProp, continuedIndent } from '@codemirror/next/language';
-import { styleTags, tags } from '@codemirror/next/highlight';
+import { LezerLanguage, indentNodeProp, foldNodeProp, continuedIndent } from '@codemirror/language';
+import { styleTags, tags } from '@codemirror/highlight';
 
 const msirilSyntax = LezerLanguage.define( {
     parser: parser.configure( {

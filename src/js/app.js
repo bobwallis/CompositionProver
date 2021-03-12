@@ -1,14 +1,14 @@
-import { EditorView, drawSelection, keymap, highlightActiveLine } from '@codemirror/next/view';
-import { EditorState } from '@codemirror/next/state';
-import { history, historyKeymap } from '@codemirror/next/history';
-import { lineNumbers } from '@codemirror/next/gutter';
-import { defaultKeymap } from '@codemirror/next/commands';
-import { bracketMatching } from '@codemirror/next/matchbrackets';
-import { closeBrackets, closeBracketsKeymap } from '@codemirror/next/closebrackets';
-import { autocompletion, completionKeymap } from '@codemirror/next/autocomplete';
-import { searchKeymap, highlightSelectionMatches } from '@codemirror/next/search';
-import { lintKeymap } from "@codemirror/next/lint"
-import { defaultHighlightStyle } from '@codemirror/next/highlight';
+import { EditorView, drawSelection, keymap, highlightActiveLine } from '@codemirror/view';
+import { EditorState } from '@codemirror/state';
+import { history, historyKeymap } from '@codemirror/history';
+import { lineNumbers } from '@codemirror/gutter';
+import { defaultKeymap } from '@codemirror/commands';
+import { bracketMatching } from '@codemirror/matchbrackets';
+import { closeBrackets, closeBracketsKeymap } from '@codemirror/closebrackets';
+import { autocompletion, completionKeymap } from '@codemirror/autocomplete';
+import { searchKeymap, highlightSelectionMatches } from '@codemirror/search';
+import { lintKeymap } from "@codemirror/lint"
+import { defaultHighlightStyle } from '@codemirror/highlight';
 import { msiril } from "./lang-msiril"
 
 let view = new EditorView( {

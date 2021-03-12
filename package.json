@@ -10,9 +10,8 @@
   "browserslist": [
     "last 3 versions"
   ],
-  "dependencies": {},
   "devDependencies": {
-    "@codemirror/next": "^0.16.0",
+    "@codemirror/basic-setup": "^0.18.0",
     "@rollup/plugin-node-resolve": "^11.0.1",
     "@rollup/stream": "^2.0.0",
     "gulp": "^4.0.2",
