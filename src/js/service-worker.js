@@ -2,9 +2,13 @@ var CACHE_NAME = 'compositionprover-DATE';
 var urlsToCache = [
     self.registration.scope,
     self.registration.scope + 'about.svg',
+    self.registration.scope + 'prove.svg',
     self.registration.scope + 'androidicon-192x192.png',
     self.registration.scope + 'androidicon-512x512.png',
+    self.registration.scope + 'appicon-180x180.png',
+    self.registration.scope + 'appicon-192x192.png',
     self.registration.scope + 'favicon.ico',
+    self.registration.scope + 'favicon.svg',
     self.registration.scope + 'style.css',
     self.registration.scope + 'gsiril.worker.js',
     self.registration.scope + 'app.js'
@@ -26,7 +30,7 @@ self.addEventListener( 'fetch', function( event ) {
     event.respondWith(
       caches.match( event.request )
         .then(function( response ) {
-            return response;
+            return response || fetch(event.request);
         } )
     );
 } );
