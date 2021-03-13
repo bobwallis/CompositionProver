@@ -63,11 +63,13 @@ gsirilWorker.onmessage = function( e ) {
 document.getElementById( 'go' ).addEventListener( 'click', function() {
     var languageSelect = document.getElementById( 'language' );
 
-    gsirilWorker.postMessage(	{
-        input: view.state.doc.toString(),
-        args: (languageSelect.options[languageSelect.selectedIndex].value === 'msiril')? ['--msiril'] : []
-    } );
-    document.getElementById( 'sirilOutput' ).innerHTML = '';
+    if( view.state.doc.toString() !== '' ) {
+        gsirilWorker.postMessage(	{
+            input: view.state.doc.toString(),
+            args: (languageSelect.options[languageSelect.selectedIndex].value === 'msiril')? ['--msiril'] : []
+        } );
+        document.getElementById( 'sirilOutput' ).innerHTML = '';
+    }
 } );
 
 // Handle click to open/close the info window
