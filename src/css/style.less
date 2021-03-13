@@ -55,52 +55,15 @@ html, body {
     z-index: 10;
     top: 36px;
     left: 0;
-    width: 100%;
+    width: 60%;
+    box-sizing: border-box;
     height: 35px;
-    padding: 0;
+    padding: 0 5px;
     margin: 0;
     background-color: #F3F3F3;
     border-bottom: 1px solid #E0DED9;
+    border-right: 1px solid rgba(0,0,0,0.1);
     color: #000;
-    #toolbar_left {
-        box-sizing: border-box;
-        width: 45%;
-        height: 100%;
-        padding: 0 5px;
-        float: left;
-        text-align: left;
-    }
-    #toolbar_right {
-        box-sizing: border-box;
-        width: 15%;
-        height: 100%;
-        padding: 0 5px;
-        float: left;
-        text-align: right;
-        border-right: 1px solid rgba(0,0,0,0.1);
-    }
-
-    #go {
-        display: inline-block;
-        box-sizing: border-box;
-        height: 25px;
-        margin: 5px;
-        padding: 0 9px;
-        background-color: #DDD;
-        background-image: linear-gradient(to bottom, #FFF 0%,#DDD 100%);
-        color: #000;
-        border-radius: 2px;
-        border: 1px solid #AAA;
-        font-size: 11px;
-        text-transform: uppercase;
-        text-align: center;
-        transition: background-color .2s ease,color .2s ease;
-        &:hover {
-            cursor: pointer;
-            background-color: #FFF;
-            background-image: linear-gradient(to bottom, #FFF 0%,#FFF 100%);
-        }
-    }
     select {
         display: block;
         font-size: 11px;
@@ -133,6 +96,35 @@ html, body {
         }
     }
 }
+#go {
+    position: absolute;
+    display: block;
+    right: 18px;
+    top: 18px;
+    box-sizing: border-box;
+    height: 56px;
+    width: 56px;
+    margin: 0;
+    padding: 0;
+    background-color: #002856;
+    background-image: url(prove.svg);
+    background-position: center center;
+    background-size: 32px;
+    background-repeat: no-repeat;
+    color: transparent;
+    border-radius: 50%;
+    border: 0;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    transition: background-color .2s ease, transform .2s ease;
+    &:hover {
+        cursor: pointer;
+        background-color: lighten(#002856,5%);
+        transform: scale(1.05);
+    }
+    &:focus {
+        outline: none;
+    }
+}
 
 #input, #output {
     position: absolute;
@@ -140,7 +132,6 @@ html, body {
     height: 100%;
     max-height: 100%;
     box-sizing: border-box;
-    padding: 72px 0 0 0;
     margin: 0;
     overflow-y: auto;
 }
@@ -148,12 +139,14 @@ html, body {
 #input {
     width: 60%;
     left: 0;
+    padding-top: 72px;
     border-right: 1px solid rgba(0,0,0,0.1);
 }
 
 #output {
     width: 40%;
     left: 60%;
+    padding-top: 36px;
     background-color: #FCFCFC;
     h2 {
         margin: 18px 0 18px 36px;
