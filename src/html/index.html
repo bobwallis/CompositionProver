@@ -5,13 +5,18 @@
     <meta name="theme-color" content="#002856">
     <meta name="description" content="Online version of GSiril, a program for proving touches.">
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/svg+xml" sizes="any" href="favicon.svg">
+    <link rel="icon" href="favicon.ico">
+    <link rel="apple-touch-icon" href="appicon-180x180.png">
     <link rel="stylesheet" media="all" href="style.css">
     <link rel="preload" href="app.js" as="script">
+    <link rel="manifest" href="manifest.json">
 	</head>
 	<body>
     <header id="head">
       <h1><a href="https://rsw.me.uk/blueline/">Blueline</a>&nbsp;&nbsp;&raquo;&nbsp;&nbsp;<span>Composition Prover</span></h1>
-      <img id="aboutButton" src="about.svg">
+      <img id="aboutButton" src="about.svg" alt="?">
     </header>
     <div id="toolbar">
       <div id="toolbar_left">
@@ -42,5 +47,6 @@
       <p>Click outside this box to close it.</p>
     </div>
 		<script src="app.js" defer></script>
+    <script>"serviceWorker"in navigator&&navigator.serviceWorker.register("service-worker.js");</script>
 	</body>
 </html>

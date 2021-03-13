@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 192 192" preserveAspectRatio="xMidYMid">
+	<defs>
+		<linearGradient id="overlay" x1="0%" y1="0%" x2="0%" y2="100%">
+			<stop offset="0" stop-color="#FFF" stop-opacity="0.2"/>
+			<stop offset="1" stop-color="#333" stop-opacity= "0.2"/>
+		</linearGradient>
+		<mask id="mask" width="192" height="192">
+			<rect x="20" y="20" rx="16" ry="16" width="152" height="152" fill="#FFF" />
+		</mask>
+		<filter id="drop-shadow" color-interpolation-filters="sRGB" x="-50%" y="-50%" height="200%" width="200%">
+			<feOffset id="offset" in="SourceAlpha" dx="0" dy="4" result="SA-offset"/>
+			<feGaussianBlur id="blur" in="SA-offset" stdDeviation="4" result="SA-o-blur"/>
+			<feComponentTransfer in="SA-o-blur" result="SA-o-b-contIN">
+				<feFuncA id="contour" type="table" tableValues="0 1"/>
+			</feComponentTransfer>
+			<feComposite operator="in" in="SA-o-blur" in2="SA-o-b-contIN" result="SA-o-b-cont"/>
+			<feComponentTransfer in="SA-o-b-cont" result="SA-o-b-c-sprd">
+				<feFuncA id="spread-ctrl" type="linear" slope="1"/>
+			</feComponentTransfer>
+			<feColorMatrix id="recolor" in="SA-o-b-c-sprd" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .25 0" result="SA-o-b-c-s-recolor"/>
+			<feTurbulence result="fNoise" type="fractalNoise" numOctaves="6" baseFrequency="1.98"/>
+			<feColorMatrix in="fNoise" type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 7 -3" result="clipNoise"/>
+			<feComposite id="noisemix" operator="arithmetic" in="SA-o-b-c-s-recolor" in2="clipNoise" k1="0" k2="1" result="SA-o-b-c-s-r-mix"/>
+			<feMerge>
+				<feMergeNode in="SA-o-b-c-s-r-mix"/>
+				<feMergeNode in="SourceGraphic"/>
+			</feMerge>
+		</filter>
+	</defs>
+	<rect width="151" height="151" fill="#FFF" x="20.5" y="20.5" rx="16" ry="16" filter="url(#drop-shadow)" />
+	<g mask="url(#mask)">
+		<rect width="152" height="152" fill="#EFE5BD" x="20" y="20" rx="16" ry="16" />
+		<g transform="scale(6) translate(4,4)"><path fill="#002856" d="M23,12l-2.44-2.79l0.34-3.69l-3.61-0.82L15.4,1.5L12,2.96L8.6,1.5L6.71,4.69L3.1,5.5L3.44,9.2L1,12l2.44,2.79l-0.34,3.7 l3.61,0.82L8.6,22.5l3.4-1.47l3.4,1.46l1.89-3.19l3.61-0.82l-0.34-3.69L23,12z M10.09,16.72l-3.8-3.81l1.48-1.48l2.32,2.33 l5.85-5.87l1.48,1.48L10.09,16.72z"/></g>
+		<rect width="152" height="152" fill="none" stroke="#E5D594" stroke-width="4" x="20" y="20" rx="16" ry="16" />
+		<rect width="152" height="152" fill="url(#overlay)" x="20" y="20" />
+	</g>
+</svg>

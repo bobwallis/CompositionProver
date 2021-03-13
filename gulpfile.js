@@ -4,7 +4,6 @@ var gulp         = require( 'gulp' );
 var plumber      = require( 'gulp-plumber' );
 var mergeStream  = require( 'merge-stream' );
 var streamify    = require( 'gulp-streamify' );
-var gzip         = require( 'gulp-gzip' );
 var less         = require( 'gulp-less' );
 var autoprefixer = require( 'gulp-autoprefixer' );
 var cleanCSS     = require( 'gulp-clean-css' );
@@ -12,6 +11,7 @@ var imagemin     = require( 'gulp-imagemin' );
 var typogr       = require( 'gulp-typogr' );
 var htmlmin      = require( 'gulp-htmlmin' );
 var terser       = require( 'gulp-terser' );
+var replace      = require( 'gulp-replace' );
 var rollupStream = require( '@rollup/stream' );
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 var source       = require( 'vinyl-source-stream' );
@@ -43,6 +43,10 @@ function js() {
     return mergeStream(
         gulp.src( 'src/gsiril/gsiril.worker.js' )
             .pipe( gulp.dest( DEST ) ),
+		gulp.src( 'src/js/service-worker.js' )
+			.pipe( replace('compositionprover-DATE', 'compositionprover-'+(new Date()).toISOString().substr(0,19).replace(/[-:T]/g,'') ) )
+			.pipe( streamify( terser() ) )
+			.pipe( gulp.dest( DEST ) ),
         rollupStream( {
             input: 'src/js/app.js',
             output: { format: 'iife' },
@@ -53,6 +57,7 @@ function js() {
             .pipe( gulp.dest( DEST ) )
     );
 };
+
 
 // HTML
 function html() {
@@ -68,19 +73,18 @@ function html() {
 };
 
 
-// Images
-function img() {
-	return gulp.src( ['src/img/*.svg'] )
-		.pipe( imagemin() )
-		.pipe( gulp.dest( DEST ) )
+// Manifest
+function manifest() {
+	return gulp.src( 'src/manifest/manifest.json' )
+		.pipe( gulp.dest( DEST ) );
 };
 
 
-// Compress
-function compressGzip() {
-	return gulp.src( [DEST+'/**/*.svg', DEST+'/**/*.html', DEST+'/**/*.js', DEST+'/**/*.css'] )
-		.pipe( gzip({ gzipOptions: { level: 9 } }) )
-		.pipe( gulp.dest( DEST+'/' ) );
+// Images
+function img() {
+	return gulp.src( ['src/img/*.svg', 'src/img/*.png'] )
+		.pipe( imagemin() )
+		.pipe( gulp.dest( DEST ) )
 };
 
 
@@ -92,5 +96,5 @@ function watch() {
 };
 
 
-exports.default = gulp.series( gulp.parallel( css, html, js, img, favicon ), compressGzip );
+exports.default = gulp.parallel( css, html, js, img, favicon, manifest );
 exports.watch = watch;
