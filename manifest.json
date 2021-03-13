@@ -10,6 +10,12 @@
         "type": "image/png"
       },
       {
+        "src": "/CompositionProver/appicon-192x192.png",
+        "sizes": "192x192",
+        "type": "image/png",
+        "purpose": "maskable"
+      },
+      {
         "src": "/CompositionProver/androidicon-512x512.png",
         "sizes": "512x512",
         "type": "image/png"
