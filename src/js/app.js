@@ -13,6 +13,7 @@ import { msiril } from "./lang-msiril"
 
 let view = new EditorView( {
     state: EditorState.create( {
+        doc: localStorage.getItem( 'editorContents' ) || '',
         extensions: [
             lineNumbers(),
             history(),
@@ -32,12 +33,19 @@ let view = new EditorView( {
                 ...completionKeymap,
                 ...lintKeymap
             ]),
-            msiril()
+            msiril(),
+            // Listen for changes and store text in localStorage for recovery when reloading
+            EditorView.updateListener.of( function( update ) {
+                if( update.docChanged ) {
+                    localStorage.setItem( 'editorContents', view.state.doc.toString() );
+                }
+            })
         ]
     } ),
     parent: document.getElementById( 'input' )
 } );
 view.focus();
+
 
 // Focus editor when clicking anywhere on the input div
 document.getElementById( 'input' ).addEventListener( 'click', function() {
