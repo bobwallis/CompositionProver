@@ -57,20 +57,25 @@ html, body {
     left: 0;
     width: 60%;
     box-sizing: border-box;
-    height: 35px;
-    padding: 0 5px;
+    height: 36px;
+    padding: 0 0 0 25px;
     margin: 0;
     background-color: #F3F3F3;
     border-bottom: 1px solid #E0DED9;
-    border-right: 1px solid rgba(0,0,0,0.1);
+    border-right: 1px solid #E0DED9;
     color: #000;
+    white-space: nowrap;
+    .select_wrapper {
+        display: inline-block;
+        vertical-align: middle;
+        height: 24px;
+        margin: 6px;
+    }
     select {
-        display: block;
-        font-size: 11px;
+        font-size: 12px;
+        height: 24px;
         color: #000;
-        height: 25px;
-        margin: 5px;
-        padding: 0 15px 0 9px;
+        padding: 0 23px 0 9px;
         box-sizing: border-box;
         border: 1px solid #AAA;
         border-radius: 2px;
@@ -93,6 +98,32 @@ html, body {
         }
         & option {
             font-weight: normal;
+        }
+    }
+    .sep {
+        display: inline-block;
+        vertical-align: middle;
+        margin: 0 2.5px;
+        padding: 0;
+        width: 1px;
+        height: 36px;
+        background-color: #E0DED9;
+        &:first-child {
+            margin-left: 0;
+        }
+    }
+    img {
+        display: inline-block;
+        vertical-align: middle;
+        opacity: 0.9;
+        width: 24px;
+        height: 24px;
+        padding: 6px;
+        transition: opacity .2s ease, transform .2s ease;
+        &:hover {
+            cursor: pointer;
+            transform: scale(1.05);
+            opacity: 1;
         }
     }
 }
@@ -118,7 +149,6 @@ html, body {
     transition: background-color .2s ease, transform .2s ease;
     &:hover {
         cursor: pointer;
-        background-color: lighten(#002856,5%);
         transform: scale(1.05);
     }
     &:focus {
