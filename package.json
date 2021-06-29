@@ -7,6 +7,9 @@
     "type": "git",
     "url": "git://github.com/bobwallis/CompositionProver.git"
   },
+  "scripts": {
+    "start": "concurrently \"gulp && gulp watch\" \"http-server ./web -r\""
+  },
   "browserslist": [
     "last 3 versions"
   ],
@@ -14,6 +17,7 @@
     "@codemirror/basic-setup": "^0.18.0",
     "@rollup/plugin-node-resolve": "^13.0.0",
     "@rollup/stream": "^2.0.0",
+    "concurrently": "^6.2.0",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^8.0.0",
     "gulp-clean-css": "^4.3.0",
