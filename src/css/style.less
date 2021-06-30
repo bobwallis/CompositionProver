@@ -8,19 +8,23 @@ html, body {
 #head {
     position: absolute;
     z-index: 10;
-    top: 0;
+    top: env(titlebar-area-y, 0);
     left: 0;
-    width: 100%;
-    height: 36px;
+    bottom: env(titlebar-area-height, calc(100% - 36px));
+    width: env(titlebar-area-width, 100%);
+    height: env(titlebar-area-height, 36px);
     padding: 0;
     margin: 0;
     background-color: #002856;
     color: #E0DED9;
-    line-height: 36px;
+    line-height: env(titlebar-area-height, 36px);
     user-select: none;
+    app-region: drag;
 
     h1 {
-        float: left;
+        position: absolute;
+        top: 0;
+        left: 0;
         margin: 0;
         padding: 0 9px;
         font-size: 19px;
@@ -33,16 +37,19 @@ html, body {
         a {
             text-decoration: none;
             color: inherit;
+            app-region: no-drag;
         }
     }
 
     #aboutButton {
+        position: absolute;
+        top: calc((env(titlebar-area-height, 36px) - 24px)/2);
+        right: calc((env(titlebar-area-height, 36px) - 24px)/2);
         opacity: 0.75;
-        width: 28px;
-        height: 28px;
-        margin: 4px;
-        float: right;
+        width: 24px;
+        height: 24px;
         transition: opacity .2s cubic-bezier(0.23, 1, 0.32, 1);
+        app-region: no-drag;
         &:hover {
             cursor: pointer;
             opacity: 0.9;

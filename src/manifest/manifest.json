@@ -25,5 +25,6 @@
     "background_color": "#002856",
     "theme_color": "#002856",
     "display": "standalone",
+    "display_override": [ "window-controls-overlay" ],
     "orientation": "landscape"
   }
