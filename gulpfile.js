@@ -93,8 +93,12 @@ function watch() {
 	gulp.watch( ['src/**/*.less', 'src/**/*.css'], css );
 	gulp.watch( ['src/**/*.html'], html );
 	gulp.watch( ['src/**/*.js'], js );
+	gulp.watch( ['src/manifest/*'], manifest );
 };
 
 
 exports.default = gulp.parallel( css, html, js, img, favicon, manifest );
+exports.css = css;
+exports.html = html;
+exports.js = js;
 exports.watch = watch;
