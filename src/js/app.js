@@ -68,7 +68,7 @@ try {
         }
     };
 } catch( e ) {
-    document.getElementById('sirilOutput').innerHTML = "<p class='placeholder'>Type or paste code into the editor to the left,<br />or open a file from your device.</p><p><span class='error'>GSiril failed to load. The editor will work\nbut you won\'t be able to run the prover.</span></p>";
+    document.getElementById('sirilOutput').innerHTML = "<p class='placeholder'>Type or paste code into the editor to the left,<br />or open a file from your device.</p><p><span class='error'>GSiril failed to load. The editor will work but you won\'t be able to run the prover.</span></p>";
     document.getElementById( 'go' ).style.display = 'none';
 }
 
