@@ -14,7 +14,8 @@
     "last 3 versions"
   ],
   "devDependencies": {
-    "@codemirror/basic-setup": "^0.18.0",
+    "@codemirror/basic-setup": "^0.19.0",
+    "@lezer/generator": "^0.15.0",
     "@rollup/plugin-node-resolve": "^13.0.0",
     "@rollup/stream": "^2.0.0",
     "concurrently": "^6.2.0",
@@ -22,14 +23,14 @@
     "gulp-autoprefixer": "^8.0.0",
     "gulp-clean-css": "^4.3.0",
     "gulp-htmlmin": "^5.0.1",
-    "gulp-imagemin": "^7.1.0",
     "gulp-less": "^5.0.0",
     "gulp-plumber": "^1.2.1",
     "gulp-replace": "^1.0.0",
+    "gulp-squoosh": "^0.8.0",
     "gulp-streamify": "^1.0.2",
+    "gulp-svgo": "^2.2.1",
     "gulp-terser": "^2.0.0",
     "gulp-typogr": "^1.0.0",
-    "lezer-generator": "^0.13.1",
     "merge-stream": "^2.0.0",
     "rollup": "^2.35.1",
     "vinyl-source-stream": "^2.0.0"

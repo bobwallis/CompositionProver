@@ -7,7 +7,7 @@ var streamify    = require( 'gulp-streamify' );
 var less         = require( 'gulp-less' );
 var autoprefixer = require( 'gulp-autoprefixer' );
 var cleanCSS     = require( 'gulp-clean-css' );
-var imagemin     = require( 'gulp-imagemin' );
+var svgo         = require('gulp-svgo');
 var typogr       = require( 'gulp-typogr' );
 var htmlmin      = require( 'gulp-htmlmin' );
 var terser       = require( 'gulp-terser' );
@@ -82,9 +82,14 @@ function manifest() {
 
 // Images
 function img() {
-	return gulp.src( ['src/img/*.svg', 'src/img/*.png'] )
-		.pipe( imagemin() )
-		.pipe( gulp.dest( DEST ) )
+    return mergeStream(
+		gulp.src( ['src/img/*.svg'] )
+			.pipe( svgo() )
+			.pipe( gulp.dest( DEST ) ),
+		gulp.src( ['src/img/*.png'] )
+			.pipe( svgo() )
+			.pipe( gulp.dest( DEST ) )
+	);
 };
 
 
