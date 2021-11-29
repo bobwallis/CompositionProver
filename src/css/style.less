@@ -60,7 +60,7 @@ html, body {
 #toolbar {
     position: absolute;
     z-index: 10;
-    top: 36px;
+    top: env(titlebar-area-height, 36px);
     left: 0;
     width: 60%;
     box-sizing: border-box;
@@ -177,14 +177,14 @@ html, body {
 #input {
     width: 60%;
     left: 0;
-    padding-top: 72px;
+    padding-top: calc(2*env(titlebar-area-height, 36px));
     border-right: 1px solid rgba(0,0,0,0.1);
 }
 
 #output {
     width: 40%;
     left: 60%;
-    padding-top: 36px;
+    padding-top: env(titlebar-area-height, 36px);
     padding-bottom: 36px;
     background-color: #FCFCFC;
     h2 {
