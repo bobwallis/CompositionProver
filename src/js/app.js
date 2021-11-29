@@ -127,3 +127,20 @@ document.getElementById( 'exportButton' ).addEventListener( 'click', function() 
     anchor.click();
     document.body.removeChild (anchor );
 } );
+
+// Hide the header links if running as a PWA and overriding the titlebar
+const debounce = (func, wait) => {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+};
+if ('windowControlsOverlay' in navigator) {
+    const setTitlebar = function() { document.getElementById( 'head' ).className = navigator.windowControlsOverlay.visible? 'simple' : 'normal'; }
+    navigator.windowControlsOverlay.addEventListener( 'geometrychange', debounce( setTitlebar, 200 ) );
+}
