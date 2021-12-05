@@ -143,4 +143,5 @@ const debounce = (func, wait) => {
 if ('windowControlsOverlay' in navigator) {
     const setTitlebar = function() { document.getElementById( 'head' ).className = navigator.windowControlsOverlay.visible? 'simple' : 'normal'; }
     navigator.windowControlsOverlay.addEventListener( 'geometrychange', debounce( setTitlebar, 200 ) );
+    setTitlebar();
 }
