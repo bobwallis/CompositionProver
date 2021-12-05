@@ -46,11 +46,11 @@ html, body {
         &::before {
             content: "Composition Prover";
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-            padding-left: 41px;
+            padding-left: calc(env(titlebar-area-height, 36px));
             font-size: 12px;
             font-weight: bold;
             background-image: url(prove.svg);
-            background-position: 11.5px center;
+            background-position: calc((env(titlebar-area-height, 36px) - 18px)/2) center;
             background-size: 18px;
             background-repeat: no-repeat;
             position: absolute;
@@ -61,8 +61,7 @@ html, body {
             opacity: 0.75;
         }
         h1 {
-            opacity: 0;
-            pointer-events: none;
+            display: none;
         }
     }
 
