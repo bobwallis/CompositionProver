@@ -31,6 +31,8 @@ html, body {
         font-weight: normal;
         font-family: Palatino,"Palatino Linotype","Palatino LT STD","URW Palladio L","Book Antiqua",Constantia,serif;
         text-transform: uppercase;
+        opacity: 1;
+        transition: opacity .3s cubic-bezier(0.23, 1, 0.32, 1);
         span {
             text-transform: capitalize;
         }
@@ -40,9 +42,27 @@ html, body {
             -webkit-app-region: no-drag;
         }
     }
-    &.simple {
+    &.app {
+        &::before {
+            content: "Composition Prover";
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            padding-left: 41px;
+            font-size: 12px;
+            font-weight: bold;
+            background-image: url(prove.svg);
+            background-position: 11.5px center;
+            background-size: 18px;
+            background-repeat: no-repeat;
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            bottom: 0px;
+            left: 0px;
+            opacity: 0.75;
+        }
         h1 {
-            display: none;
+            opacity: 0;
+            pointer-events: none;
         }
     }
 
