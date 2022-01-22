@@ -34,10 +34,13 @@ let view = new EditorView( {
                 ...lintKeymap
             ]),
             msiril(),
-            // Listen for changes and store text in localStorage for recovery when reloading
+            // Listen for changes to the document and...
             EditorView.updateListener.of( function( update ) {
                 if( update.docChanged ) {
+                    // ...store text in localStorage for recovery when reloading
                     localStorage.setItem( 'editorContents', view.state.doc.toString() );
+                    // adjust geometry of the toolbar
+                    document.getElementById( 'toolbar' ).style.paddingLeft = document.querySelector( '#input .cm-gutters' ).clientWidth+'px';
                 }
             })
         ]
