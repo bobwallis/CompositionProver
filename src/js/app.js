@@ -53,7 +53,10 @@ let view = new EditorView( {
     } ),
     parent: document.getElementById( 'input' )
 } );
+// Focus and do initial layout set
 view.focus();
+var gutterDimensions = document.querySelector( '#input .cm-gutters' ).getBoundingClientRect();
+document.getElementById( 'toolbar' ).style.paddingLeft = (gutterDimensions.width-1)+'px';
 
 
 // Focus editor when clicking anywhere on the input div
