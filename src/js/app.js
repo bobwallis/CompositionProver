@@ -41,6 +41,10 @@ let view = new EditorView( {
                     localStorage.setItem( 'editorContents', view.state.doc.toString() );
                     // adjust geometry of the toolbar
                     document.getElementById( 'toolbar' ).style.paddingLeft = document.querySelector( '#input .cm-gutters' ).clientWidth+'px';
+                    if( document.getElementsByClassName( 'placeholder' ).length === 0 ) {
+                        document.getElementById( 'codeChanged' ).innerHTML = '(Code has changed since proof was last run)';
+                        document.getElementById( 'codeChanged' ).style.opacity = 1;
+                    }
                 }
             })
         ]
@@ -85,6 +89,7 @@ document.getElementById( 'go' ).addEventListener( 'click', function() {
             args: (languageSelect.options[languageSelect.selectedIndex].value === 'msiril')? ['--msiril'] : []
         } );
         document.getElementById( 'sirilOutput' ).innerHTML = '';
+        document.getElementById( 'codeChanged' ).style.opacity = 0;
     }
 } );
 
