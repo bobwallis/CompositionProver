@@ -40,7 +40,8 @@ let view = new EditorView( {
                     // ...store text in localStorage for recovery when reloading
                     localStorage.setItem( 'editorContents', view.state.doc.toString() );
                     // adjust geometry of the toolbar
-                    document.getElementById( 'toolbar' ).style.paddingLeft = document.querySelector( '#input .cm-gutters' ).clientWidth+'px';
+                    var gutterDimensions = document.querySelector( '#input .cm-gutters' ).getBoundingClientRect();
+                    document.getElementById( 'toolbar' ).style.paddingLeft = (gutterDimensions.width-1)+'px';
                     if( document.getElementsByClassName( 'placeholder' ).length === 0 ) {
                         document.getElementById( 'codeChanged' ).innerHTML = '(Code has changed since proof was last run)';
                         document.getElementById( 'codeChanged' ).style.opacity = 1;
