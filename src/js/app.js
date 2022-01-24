@@ -42,6 +42,7 @@ let view = new EditorView( {
                     // adjust geometry of the toolbar
                     var gutterDimensions = document.querySelector( '#input .cm-gutters' ).getBoundingClientRect();
                     document.getElementById( 'toolbar' ).style.paddingLeft = (gutterDimensions.width-1)+'px';
+                    // Show message to say content has changed
                     if( document.getElementsByClassName( 'placeholder' ).length === 0 ) {
                         document.getElementById( 'codeChanged' ).innerHTML = '(Code has changed since proof was last run)';
                         document.getElementById( 'codeChanged' ).style.opacity = 1;
