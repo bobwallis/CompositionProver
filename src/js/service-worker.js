@@ -13,7 +13,8 @@ var urlsToCache = [
     self.registration.scope + 'favicon.svg',
     self.registration.scope + 'style.css',
     self.registration.scope + 'gsiril.worker.js',
-    self.registration.scope + 'app.js'
+    self.registration.scope + 'app.js',
+    self.registration.scope + 'manifest.json'
 ];
 
 self.addEventListener( 'install', function( event ) {
