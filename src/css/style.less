@@ -245,14 +245,15 @@ html, body {
     width: 100%;
     height: calc(100% - env(titlebar-area-height, 36px));
     background-color: #FFF;
-    transition: opacity .4s cubic-bezier(0.23, 1, 0.32, 1);
     &.hide {
         opacity: 0;
         pointer-events: none;
+        transition: all .4s cubic-bezier(0.68, 0, 0.77, 0);
     }
     &.active {
         opacity: 0.8;
         pointer-events: auto;
+        transition: opacity .4s cubic-bezier(0.23, 1, 0.32, 1);
     }
 }
 
@@ -266,17 +267,18 @@ html, body {
     background-color: #FFF;
     box-shadow: 0 8px 25px rgba(0,0,0,.4);
     font-size: 16px;
-    transition: all .4s cubic-bezier(0.23, 1, 0.32, 1);
     hyphens: auto;
     &.hide {
         top: 0;
         opacity: 0;
         pointer-events: none;
+        transition: all .4s cubic-bezier(0.68, 0, 0.77, 0);
     }
     &.active {
         top: 75px;
         opacity: 1;
         pointer-events: auto;
+        transition: all .4s cubic-bezier(0.23, 1, 0.32, 1);
     }
     ol {
         counter-reset: list;
