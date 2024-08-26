@@ -7,7 +7,7 @@ var streamify    = require( 'gulp-streamify' );
 var less         = require( 'gulp-less' );
 var autoprefixer = require( 'gulp-autoprefixer' );
 var cleanCSS     = require( 'gulp-clean-css' );
-var svgo         = require('gulp-svgo');
+var svgo         = require( 'gulp-svgo');
 var typogr       = require( 'gulp-typogr' );
 var htmlmin      = require( 'gulp-htmlmin' );
 var terser       = require( 'gulp-terser' );
@@ -87,7 +87,6 @@ function img() {
 			.pipe( svgo() )
 			.pipe( gulp.dest( DEST ) ),
 		gulp.src( ['src/img/*.png'] )
-			.pipe( svgo() )
 			.pipe( gulp.dest( DEST ) )
 	);
 };
