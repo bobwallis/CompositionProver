@@ -2,7 +2,7 @@ import { EditorView, drawSelection, keymap, highlightActiveLine } from '@codemir
 import { EditorState } from '@codemirror/state';
 import { history, historyKeymap } from '@codemirror/history';
 import { lineNumbers } from '@codemirror/gutter';
-import { defaultKeymap } from '@codemirror/commands';
+import { defaultKeymap, indentWithTab } from '@codemirror/commands';
 import { bracketMatching } from '@codemirror/matchbrackets';
 import { closeBrackets, closeBracketsKeymap } from '@codemirror/closebrackets';
 import { autocompletion, completionKeymap } from '@codemirror/autocomplete';
@@ -31,7 +31,8 @@ let view = new EditorView( {
                 ...searchKeymap,
                 ...historyKeymap,
                 ...completionKeymap,
-                ...lintKeymap
+                ...lintKeymap,
+                indentWithTab
             ]),
             msiril(),
             // Listen for changes to the document and...
