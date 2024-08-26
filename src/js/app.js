@@ -7,9 +7,9 @@ import { bracketMatching } from '@codemirror/matchbrackets';
 import { closeBrackets, closeBracketsKeymap } from '@codemirror/closebrackets';
 import { autocompletion, completionKeymap } from '@codemirror/autocomplete';
 import { searchKeymap, highlightSelectionMatches } from '@codemirror/search';
-import { lintKeymap } from "@codemirror/lint"
+import { lintKeymap } from "@codemirror/lint";
 import { defaultHighlightStyle } from '@codemirror/highlight';
-import { msiril } from "./lang-msiril"
+import { msiril } from "./lang-msiril";
 
 let view = new EditorView( {
     state: EditorState.create( {
@@ -71,17 +71,17 @@ try {
     var gsirilWorker = new Worker( 'gsiril.worker.js' );
     gsirilWorker.onmessage = function( e ) {
         if(typeof e.data.output == 'string' ) {
-            document.getElementById('sirilOutput').innerHTML += e.data.output + "\n";
+            document.getElementById( 'sirilOutput' ).innerHTML += e.data.output + "\n";
         }
         else if(typeof e.data.error === 'string') {
-            document.getElementById('sirilOutput').innerHTML += '<span class="error">' + e.data.error + "</span>\n";
+            document.getElementById( 'sirilOutput' ).innerHTML += '<span class="error">' + e.data.error + "</span>\n";
         }
         else {
-            console.log(e.data);
+            console.log( e.data );
         }
     };
 } catch( e ) {
-    document.getElementById('sirilOutput').innerHTML = "<p class='placeholder'>Type or paste code into the editor to the left,<br />or open a file from your device.</p><p><span class='error'>GSiril failed to load. The editor will work but you won\'t be able to run the prover.</span></p>";
+    document.getElementById( 'sirilOutput' ).innerHTML = "<p class='placeholder'>Type or paste code into the editor to the left,<br />or open a file from your device.</p><p><span class='error'>GSiril failed to load. The editor will work but you won\'t be able to run the prover.</span></p>";
     document.getElementById( 'go' ).style.display = 'none';
 }
 
@@ -90,7 +90,7 @@ document.getElementById( 'go' ).addEventListener( 'click', function() {
     var languageSelect = document.getElementById( 'language' );
 
     if( view.state.doc.toString() !== '' ) {
-        gsirilWorker.postMessage(	{
+        gsirilWorker.postMessage( {
             input: view.state.doc.toString(),
             args: (languageSelect.options[languageSelect.selectedIndex].value === 'msiril')? ['--msiril'] : []
         } );
@@ -123,7 +123,7 @@ openFile.addEventListener( 'change', function( e ) {
     reader.onerror = function() {
         alert( "Failed to read file.\n" + reader.error );
         reader.abort();
-    }
+    };
     reader.readAsText( e.target.files[0] );
 } );
 
@@ -139,7 +139,7 @@ document.getElementById( 'exportButton' ).addEventListener( 'click', function() 
     anchor.style.display = 'none';
     document.body.appendChild( anchor );
     anchor.click();
-    document.body.removeChild (anchor );
+    document.body.removeChild ( anchor );
 } );
 
 // Hide the header links if running as a PWA and overriding the titlebar
@@ -154,8 +154,8 @@ const debounce = (func, wait) => {
         timeout = setTimeout(later, wait);
     };
 };
-if ('windowControlsOverlay' in navigator) {
-    const setTitlebar = function() { document.getElementById( 'head' ).className = navigator.windowControlsOverlay.visible? 'app' : 'web'; }
+if( 'windowControlsOverlay' in navigator ) {
+    const setTitlebar = function() { document.getElementById( 'head' ).className = navigator.windowControlsOverlay.visible? 'app' : 'web'; };
     navigator.windowControlsOverlay.addEventListener( 'geometrychange', debounce( setTitlebar, 200 ) );
     setTitlebar();
 }
