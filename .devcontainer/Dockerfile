@@ -1,8 +1,9 @@
-# See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.183.0/containers/javascript-node/.devcontainer/base.Dockerfile
+# syntax=docker/dockerfile:1
+# See here for image contents: https://github.com/devcontainers/images/tree/main/src/javascript-node
 
-# [Choice] Node.js version: 16, 14, 12
-ARG VARIANT="16-buster"
-FROM mcr.microsoft.com/vscode/devcontainers/javascript-node:0-${VARIANT}
+# [Choice] Node.js version and OS variant, e.g. 24-trixie, 24-bookworm, 22-trixie
+ARG VARIANT="24-trixie"
+FROM mcr.microsoft.com/devcontainers/javascript-node:${VARIANT}
 
 # Additional OS packages.
 # RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
