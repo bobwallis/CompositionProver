@@ -8,7 +8,7 @@
     "url": "git://github.com/bobwallis/CompositionProver.git"
   },
   "scripts": {
-    "start": "concurrently \"gulp && gulp watch\" \"http-server ./web -r\""
+    "start": "concurrently \"npx update-browserslist-db@latest && gulp && gulp watch\" \"http-server ./web -r\""
   },
   "browserslist": [
     "last 3 versions"
