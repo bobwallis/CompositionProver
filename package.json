@@ -8,7 +8,24 @@
     "url": "git://github.com/bobwallis/CompositionProver.git"
   },
   "scripts": {
-    "start": "concurrently \"npx update-browserslist-db@latest && gulp && gulp watch\" \"http-server ./web -r\""
+    "build:css": "mkdir -p web && postcss src/css/style.css -o web/style.css --use postcss-nesting --use autoprefixer --use postcss-csso",
+    "build:js": "npm-run-all build:js:app build:js:worker build:js:serviceworker",
+    "build:js:app": "mkdir -p web && rollup src/js/app.js --file web/app.js --format iife --name app --plugin @rollup/plugin-node-resolve --compact && terser web/app.js --compress toplevel=true,pure_getters=true,unsafe=true,passes=3 --mangle --keep-fnames -o web/app.js",
+    "build:js:worker": "mkdir -p web && cp src/gsiril/gsiril.worker.js web/gsiril.worker.js",
+    "build:js:serviceworker": "mkdir -p web && cp src/js/service-worker.js web/service-worker.js && sed -i \"s/compositionprover-DATE/compositionprover-$(date -u +%Y%m%d%H%M%S)/g\" web/service-worker.js && terser web/service-worker.js -o web/service-worker.js",
+    "build:html": "mkdir -p web && cp src/html/index.html web/index.html && html-minifier-terser --collapse-whitespace --remove-comments -o web/index.html web/index.html",
+    "build:img": "mkdir -p web && svgo -f src/img -o web && cp src/img/*.png web/",
+    "build:manifest": "mkdir -p web && cp src/manifest/manifest.json web/manifest.json",
+    "build:favicon": "mkdir -p web && cp src/img/favicon.ico src/img/favicon.svg web/",
+    "build": "npm-run-all build:css build:js build:html build:img build:favicon build:manifest",
+    "watch:css": "onchange 'src/css/**/*.css' -- npm run build:css",
+    "watch:html": "onchange 'src/**/*.html' -- npm run build:html",
+    "watch:js": "onchange 'src/**/*.js' -- npm run build:js",
+    "watch:manifest": "onchange 'src/manifest/*' -- npm run build:manifest",
+    "watch": "npm-run-all --parallel watch:css watch:html watch:js watch:manifest",
+    "serve": "http-server ./web -r",
+    "prebuild": "npx update-browserslist-db@latest",
+    "start": "npm-run-all build --parallel watch serve"
   },
   "browserslist": [
     "last 3 versions"
@@ -25,23 +42,17 @@
     "@lezer/highlight": "^1.2.3",
     "@lezer/lr": "^1.4.8",
     "@rollup/plugin-node-resolve": "^16.0.3",
-    "@rollup/stream": "^3.0.1",
     "autoprefixer": "^10.4.27",
-    "concurrently": "^9.2.1",
-    "gulp": "^5.0.1",
-    "gulp-htmlmin": "^5.0.1",
-    "gulp-postcss": "^10.0.0",
-    "gulp-plumber": "^1.2.1",
-    "gulp-replace": "^1.0.0",
-    "gulp-streamify": "^1.0.2",
-    "gulp-svgo": "^2.2.1",
-    "gulp-terser": "^2.0.0",
-    "gulp-typogr": "^1.0.0",
-    "merge-stream": "^2.0.0",
+    "http-server": "^14.1.1",
+    "html-minifier-terser": "^7.2.0",
+    "npm-run-all": "^4.1.5",
+    "onchange": "^7.1.0",
     "postcss": "^8.5.8",
+    "postcss-cli": "^10.1.0",
     "postcss-csso": "^6.0.1",
     "postcss-nesting": "^14.0.0",
     "rollup": "^4.59.0",
-    "vinyl-source-stream": "^2.0.0"
+    "svgo": "^3.3.2",
+    "terser": "^5.39.0"
   }
 }
