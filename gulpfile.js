@@ -4,10 +4,10 @@ var gulp         = require( 'gulp' );
 var plumber      = require( 'gulp-plumber' );
 var mergeStream  = require( 'merge-stream' );
 var streamify    = require( 'gulp-streamify' );
-var less         = require( 'gulp-less' );
-var autoprefixerModule = require( 'gulp-autoprefixer' );
-var autoprefixer = autoprefixerModule.default || autoprefixerModule;
-var cleanCSS     = require( 'gulp-clean-css' );
+var postcss      = require( 'gulp-postcss' );
+var postcssNesting = require( 'postcss-nesting' );
+var autoprefixer = require( 'autoprefixer' );
+var postcssCsso  = require( 'postcss-csso' );
 var svgo         = require( 'gulp-svgo');
 var typogr       = require( 'gulp-typogr' );
 var htmlmin      = require( 'gulp-htmlmin' );
@@ -31,14 +31,16 @@ function favicon() {
 
 // CSS
 function css() {
-	return gulp.src( 'src/css/style.less' )
+	return gulp.src( 'src/css/style.css' )
 		.pipe( plumber( { errorHandler: function ( err ) {
 			console.log(err);
 			this.emit('end');
 		} } ) )
-		.pipe( less() )
-		.pipe( autoprefixer() )
-		.pipe( cleanCSS() )
+		.pipe( postcss( [
+			postcssNesting(),
+			autoprefixer(),
+			postcssCsso( { restructure: false } )
+		] ) )
 		.pipe( gulp.dest( DEST ) );
 };
 
@@ -99,7 +101,7 @@ function img() {
 
 // Watcher
 function watch() {
-	gulp.watch( ['src/**/*.less', 'src/**/*.css'], css );
+	gulp.watch( ['src/css/**/*.css'], css );
 	gulp.watch( ['src/**/*.html'], html );
 	gulp.watch( ['src/**/*.js'], js );
 	gulp.watch( ['src/manifest/*'], manifest );

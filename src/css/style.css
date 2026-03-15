@@ -20,7 +20,7 @@ html, body {
     line-height: env(titlebar-area-height, 36px);
     user-select: none;
     -webkit-app-region: drag;
-    h1 {
+    & h1 {
         position: absolute;
         top: 0;
         left: 0;
@@ -36,7 +36,7 @@ html, body {
         background-repeat: no-repeat;
     }
 
-    #aboutButton {
+    & #aboutButton {
         position: absolute;
         top: calc((env(titlebar-area-height, 36px) - 20px)/2);
         right: calc((env(titlebar-area-height, 36px) - 20px)/2);
@@ -68,13 +68,13 @@ html, body {
     color: #000;
     white-space: nowrap;
     user-select: none;
-    .select_wrapper {
+    & .select_wrapper {
         display: inline-block;
         vertical-align: middle;
         height: 24px;
         margin: 6px;
     }
-    select {
+    & select {
         font-size: 12px;
         height: 24px;
         color: #000;
@@ -103,7 +103,7 @@ html, body {
             font-weight: normal;
         }
     }
-    .sep {
+    & .sep {
         display: inline-block;
         vertical-align: middle;
         margin: 0 2.5px;
@@ -115,7 +115,7 @@ html, body {
             margin-left: 0;
         }
     }
-    img {
+    & img {
         display: inline-block;
         vertical-align: middle;
         opacity: 0.9;
@@ -182,27 +182,27 @@ html, body {
     padding-top: env(titlebar-area-height, 36px);
     padding-bottom: 36px;
     background-color: #FCFCFC;
-    h2 {
+    & h2 {
         margin: 18px 0 18px 36px;
         padding: 0;
         font-size: 16px;
         color: #666;
         user-select: none;
     }
-    #codeChanged {
+    & #codeChanged {
         font-size: 12px;
         font-weight: normal;
         opacity: 0;
         transition: opacity .1s;
     }
-    #sirilOutput {
+    & #sirilOutput {
         padding: 0 0 0 44px;
         font-family: monospace;
         white-space: pre;
-        .placeholder {
+        & .placeholder {
             color: #666;
         }
-        .error {
+        & .error {
             color: #F66;
         }
     }
@@ -251,9 +251,9 @@ html, body {
         pointer-events: auto;
         transition: all .4s cubic-bezier(0.23, 1, 0.32, 1);
     }
-    ol {
+    & ol {
         counter-reset: list;
-        li {
+        & li {
             list-style: none;
             &:before {
                 content: "(" counter(list, lower-alpha) ") ";
