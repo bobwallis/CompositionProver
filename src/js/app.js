@@ -1,14 +1,11 @@
-import { EditorView, drawSelection, keymap, highlightActiveLine } from '@codemirror/view';
+import { EditorView, drawSelection, keymap, highlightActiveLine, lineNumbers } from '@codemirror/view';
 import { EditorState } from '@codemirror/state';
-import { history, historyKeymap } from '@codemirror/history';
-import { lineNumbers } from '@codemirror/gutter';
-import { defaultKeymap, indentWithTab } from '@codemirror/commands';
-import { bracketMatching } from '@codemirror/matchbrackets';
-import { closeBrackets, closeBracketsKeymap } from '@codemirror/closebrackets';
+import { defaultKeymap, history, historyKeymap, indentWithTab } from '@codemirror/commands';
 import { autocompletion, completionKeymap } from '@codemirror/autocomplete';
+import { closeBrackets, closeBracketsKeymap } from '@codemirror/autocomplete';
 import { searchKeymap, highlightSelectionMatches } from '@codemirror/search';
 import { lintKeymap } from "@codemirror/lint";
-import { defaultHighlightStyle } from '@codemirror/highlight';
+import { bracketMatching, defaultHighlightStyle, syntaxHighlighting } from '@codemirror/language';
 import { msiril } from "./lang-msiril";
 
 let view = new EditorView( {
@@ -19,7 +16,7 @@ let view = new EditorView( {
             history(),
             drawSelection(),
             EditorState.allowMultipleSelections.of(true),
-            defaultHighlightStyle,
+            syntaxHighlighting(defaultHighlightStyle),
             bracketMatching(),
             closeBrackets(),
             autocompletion(),

@@ -5,7 +5,8 @@ var plumber      = require( 'gulp-plumber' );
 var mergeStream  = require( 'merge-stream' );
 var streamify    = require( 'gulp-streamify' );
 var less         = require( 'gulp-less' );
-var autoprefixer = require( 'gulp-autoprefixer' );
+var autoprefixerModule = require( 'gulp-autoprefixer' );
+var autoprefixer = autoprefixerModule.default || autoprefixerModule;
 var cleanCSS     = require( 'gulp-clean-css' );
 var svgo         = require( 'gulp-svgo');
 var typogr       = require( 'gulp-typogr' );
@@ -19,8 +20,12 @@ var source       = require( 'vinyl-source-stream' );
 
 // Favicon
 function favicon() {
-	return gulp.src( 'src/img/favicon.*' )
-		.pipe( gulp.dest( DEST ) );
+	return mergeStream(
+		gulp.src( 'src/img/favicon.ico', { encoding: false } )
+			.pipe( gulp.dest( DEST ) ),
+		gulp.src( 'src/img/favicon.svg' )
+			.pipe( gulp.dest( DEST ) )
+	);
 };
 
 
@@ -86,7 +91,7 @@ function img() {
 		gulp.src( ['src/img/*.svg'] )
 			.pipe( svgo() )
 			.pipe( gulp.dest( DEST ) ),
-		gulp.src( ['src/img/*.png'] )
+		gulp.src( ['src/img/*.png'], { encoding: false } )
 			.pipe( gulp.dest( DEST ) )
 	);
 };

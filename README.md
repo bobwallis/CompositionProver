@@ -18,12 +18,16 @@ The results are published online at [bobwallis.github.io/CompositionProver/](htt
 
 ## Development
 
-[![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/bobwallis/CompositionProver)
-
-I use Visual Studio Code to develop in, and you can too using the above button. But the only real dependencies are NPM and Gulp.
+I use Visual Studio Code to develop in, but the only real dependencies are NPM and Gulp.
 
 Source code for the various parts of the project are in the `/src` folder. Edit files, and then run `gulp` to build them and deposit distributable versions into the `/web` folder. To watch for changes and automatically rebuild files, run `gulp watch`.
 
 To test the code, run `npm start` which will launch a web server that you can open at <http://localhost:8080>. If you are using Visual Studio Code you can use the 'Run & Debug' functionality.
 
-To update the project's dependencies with new minor releases, run `npm update --save-dev`. Run `npm outdated` to find new major versions, and think about upgrading to them.
+To update the project's dependencies with new minor releases, run `npm update --save-dev`.
+
+To review major dependency updates, run `npm outdated`, then to apply updates (including major versions), update in small groups and run a build after each group:
+
+1. `npm install --save-dev <packages...>`
+2. `npx gulp --tasks`
+3. `npx gulp`
