@@ -15,3 +15,4 @@ var runGsiril = function(input, args) {
       postMessage({error: text});
     }
   };
+// The missing closing bracket is in postjs.js
