@@ -97,13 +97,13 @@ document.getElementById( 'go' ).addEventListener( 'click', function() {
 } );
 
 // Handle click to open/close the info window
+var aboutDialog = document.getElementById( 'about' );
 document.getElementById( 'aboutButton' ).addEventListener( 'click', function() {
-    document.getElementById( 'overlay' ).className = 'active';
-    document.getElementById( 'about' ).className   = 'active';
-} );
-document.getElementById( 'overlay' ).addEventListener( 'click', function() {
-    document.getElementById( 'overlay' ).className = 'hide';
-    document.getElementById( 'about' ).className   = 'hide';
+    if( aboutDialog.open ) {
+        return;
+    }
+
+    aboutDialog.showModal();
 } );
 
 // Handle click on the file open button

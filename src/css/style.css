@@ -208,48 +208,33 @@ html, body {
     }
 }
 
-#overlay {
-    position: absolute;
-    z-index: 99;
-    top: env(titlebar-area-height, 36px);
-    left: 0;
-    width: 100%;
-    height: calc(100% - env(titlebar-area-height, 36px));
-    background-color: #FFF;
-    &.hide {
-        opacity: 0;
-        pointer-events: none;
-        transition: all .4s cubic-bezier(0.68, 0, 0.77, 0);
-    }
-    &.active {
-        opacity: 0.8;
-        pointer-events: auto;
-        transition: opacity .4s cubic-bezier(0.23, 1, 0.32, 1);
-    }
-}
-
 #about {
-    position: absolute;
-    z-index: 100;
+    --about-offset: calc(env(titlebar-area-height, 36px) + 39px);
+    position: fixed;
     left: 50%;
-    transform: translateX(-265px);
-    width: 450px;
+    top: var(--about-offset);
+    transform: translate(-50%, 0);
+    width: min(calc(100% - 32px), 450px);
+    box-sizing: border-box;
     padding: 25px 40px;
+    margin: 0;
+    border: none;
     background-color: #FFF;
     box-shadow: 0 8px 25px rgba(0,0,0,.4);
     font-size: 16px;
     hyphens: auto;
-    &.hide {
-        top: 0;
+    max-height: calc(100dvh - var(--about-offset) - 16px);
+    overflow: auto;
+    opacity: 0;
+    &::backdrop {
+        background-color: #FFF;
         opacity: 0;
-        pointer-events: none;
-        transition: all .4s cubic-bezier(0.68, 0, 0.77, 0);
     }
-    &.active {
-        top: 75px;
-        opacity: 1;
-        pointer-events: auto;
-        transition: all .4s cubic-bezier(0.23, 1, 0.32, 1);
+    &[open] {
+        animation: about-open .2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        &::backdrop {
+            animation: about-backdrop-open .2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
     }
     & ol {
         counter-reset: list;
@@ -260,6 +245,26 @@ html, body {
                 counter-increment: list;
             }
         }
+    }
+}
+
+@keyframes about-open {
+    from {
+        opacity: 0;
+        transform: translate(calc(-50% + 120px), calc(-100% - var(--about-offset)));
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+@keyframes about-backdrop-open {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: .8;
     }
 }
 

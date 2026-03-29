@@ -37,8 +37,7 @@
       <h2>Output <span id="codeChanged"></span></h2>
       <div id="sirilOutput"><p class="placeholder">Type or paste code into the editor to the left,<br />or open a file from your device.</p><p class="placeholder">Then click the big blue button to prove.</p></div>
     </div>
-    <div id="overlay" class="hide"></div>
-    <div id="about" class="hide">
+    <dialog id="about" closedby="any">
       <p>This page contains a simple web interface for Richard Smith's <a href="http://www.ex-parrot.com/~richard/gsiril/">GSiril</a> touch proving program.</p>
       <p>It contains:</p>
       <ol>
@@ -47,8 +46,8 @@
         <li>some code to join these two things together.</li>
       </ol>
       <p>The source code is <a href="https://github.com/bobwallis/CompositionProver">made available</a> for interested people, and released under the GPL.</p>
-      <p>Click outside this box to close it.</p>
-    </div>
+      <p>Click outside this box, or press Escape, to close it.</p>
+    </dialog>
 		<script src="app.js" defer></script>
     <script>"serviceWorker"in navigator&&navigator.serviceWorker.register("service-worker.js");</script>
 	</body>
