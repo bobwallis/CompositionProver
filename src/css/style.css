@@ -223,17 +223,37 @@ html, body {
     box-shadow: 0 8px 25px rgba(0,0,0,.4);
     font-size: 16px;
     hyphens: auto;
+    view-transition-name: about-dialog;
     max-height: calc(100dvh - var(--about-offset) - 16px);
     overflow: auto;
     opacity: 0;
+    transform: translate(calc(-50% + 12px), -8px) scale(.97);
+    transition: opacity .2s cubic-bezier(0.23, 1, 0.32, 1),
+        transform .2s cubic-bezier(0.23, 1, 0.32, 1),
+        overlay .2s cubic-bezier(0.23, 1, 0.32, 1) allow-discrete,
+        display .2s cubic-bezier(0.23, 1, 0.32, 1) allow-discrete;
     &::backdrop {
         background-color: #FFF;
         opacity: 0;
+        transition: opacity .2s cubic-bezier(0.23, 1, 0.32, 1),
+            overlay .2s cubic-bezier(0.23, 1, 0.32, 1) allow-discrete,
+            display .2s cubic-bezier(0.23, 1, 0.32, 1) allow-discrete;
     }
     &[open] {
-        animation: about-open .2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        opacity: 1;
+        transform: translate(-50%, 0) scale(1);
+
+        @starting-style {
+            opacity: 0;
+            transform: translate(calc(-50% + 12px), -8px) scale(.97);
+        }
+
         &::backdrop {
-            animation: about-backdrop-open .2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+            opacity: .8;
+
+            @starting-style {
+                opacity: 0;
+            }
         }
     }
     & ol {
@@ -248,23 +268,65 @@ html, body {
     }
 }
 
-@keyframes about-open {
-    from {
-        opacity: 0;
-        transform: translate(calc(-50% + 120px), calc(-100% - var(--about-offset)));
+@supports (view-transition-name: about-dialog) {
+    :root:active-view-transition-type(about-in)::view-transition-group(about-dialog),
+    :root:active-view-transition-type(about-out)::view-transition-group(about-dialog) {
+        animation-duration: 150ms;
     }
-    to {
-        opacity: 1;
-        transform: translate(-50%, 0);
+
+    :root:active-view-transition-type(about-in)::view-transition-group(about-dialog) {
+        animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
+    }
+
+    :root:active-view-transition-type(about-out)::view-transition-group(about-dialog) {
+        animation-timing-function: cubic-bezier(0.68, 0, 0.77, 0);
+    }
+
+    :root:active-view-transition-type(about-in)::view-transition-new(about-dialog) {
+        animation-name: about-dialog-in;
+    }
+
+    :root:active-view-transition-type(about-out)::view-transition-old(about-dialog) {
+        animation-name: about-dialog-out;
     }
 }
 
-@keyframes about-backdrop-open {
+@keyframes about-dialog-in {
     from {
         opacity: 0;
+        transform: translate(12px, -8px) scale(.97);
     }
+
     to {
-        opacity: .8;
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+    }
+}
+
+@keyframes about-dialog-out {
+    from {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: translate(12px, -8px) scale(.97);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #about {
+        transition-duration: 1ms, 1ms, 1ms, 1ms;
+
+        &::backdrop {
+            transition-duration: 1ms, 1ms, 1ms;
+        }
+    }
+
+    :root:active-view-transition-type(about-in)::view-transition-group(about-dialog),
+    :root:active-view-transition-type(about-out)::view-transition-group(about-dialog) {
+        animation-duration: 1ms;
     }
 }
 

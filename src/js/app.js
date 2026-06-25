@@ -98,12 +98,54 @@ document.getElementById( 'go' ).addEventListener( 'click', function() {
 
 // Handle click to open/close the info window
 var aboutDialog = document.getElementById( 'about' );
-document.getElementById( 'aboutButton' ).addEventListener( 'click', function() {
+var runAboutTransition = function( type, updateFn ) {
+    if( !document.startViewTransition ) {
+        updateFn();
+        return;
+    }
+
+    try {
+        document.startViewTransition( {
+            update: updateFn,
+            types: [ type ]
+        } );
+    } catch( error ) {
+        document.startViewTransition( updateFn );
+    }
+};
+
+var openAbout = function() {
     if( aboutDialog.open ) {
         return;
     }
 
-    aboutDialog.showModal();
+    runAboutTransition( 'about-in', function() {
+        aboutDialog.showModal();
+    } );
+};
+
+var closeAbout = function() {
+    if( !aboutDialog.open ) {
+        return;
+    }
+
+    runAboutTransition( 'about-out', function() {
+        aboutDialog.close();
+    } );
+};
+
+document.getElementById( 'aboutButton' ).addEventListener( 'click', function() {
+    if( aboutDialog.open ) {
+        closeAbout();
+        return;
+    }
+
+    openAbout();
+} );
+
+aboutDialog.addEventListener( 'cancel', function( event ) {
+    event.preventDefault();
+    closeAbout();
 } );
 
 // Handle click on the file open button
