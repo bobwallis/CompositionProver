@@ -16,6 +16,8 @@ The remainder of the project is a simple single-page web app which glues togethe
 
 The results are published online at [bobwallis.github.io/CompositionProver/](https://bobwallis.github.io/CompositionProver/).
 
+![Composition Prover screenshot](screenshots/1.png)
+
 ## Development
 
 I use Visual Studio Code to develop in, but the only real dependency is NPM.
