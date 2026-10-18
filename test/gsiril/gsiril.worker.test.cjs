@@ -4,7 +4,7 @@ const path = require('node:path');
 const test = require('node:test');
 const vm = require('node:vm');
 
-const source = fs.readFileSync(path.join(__dirname, 'gsiril.worker.js'), 'utf8');
+const source = fs.readFileSync(path.join(__dirname, '..', '..', 'src', 'gsiril', 'gsiril.worker.js'), 'utf8');
 
 function loadWorker(factory) {
     const messages = [];

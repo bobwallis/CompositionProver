@@ -60,7 +60,7 @@ make -C src/gsiril clean
 
 ## Smoke test with Node.js
 
-Run the worker protocol regression tests with `npm run test:gsiril`.
+Run the worker protocol regression tests (in [`/test/gsiril`](../../test/gsiril)) with `npm run test:gsiril`.
 These tests use a simulated runtime and do not require Emscripten.
 
 The generated program is a modularized runtime, not a command-line executable.

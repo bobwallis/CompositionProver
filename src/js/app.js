@@ -1,4 +1,4 @@
-import { EditorView, drawSelection, keymap, highlightActiveLine, lineNumbers } from '@codemirror/view';
+import { drawSelection, keymap, highlightActiveLine, lineNumbers } from '@codemirror/view';
 import { EditorState } from '@codemirror/state';
 import { defaultKeymap, history, historyKeymap, indentWithTab } from '@codemirror/commands';
 import { autocompletion, completionKeymap } from '@codemirror/autocomplete';
@@ -7,191 +7,67 @@ import { searchKeymap, highlightSelectionMatches } from '@codemirror/search';
 import { lintKeymap } from "@codemirror/lint";
 import { bracketMatching, defaultHighlightStyle, syntaxHighlighting } from '@codemirror/language';
 import { msiril } from "./lang-msiril";
+import { initWorkspace, subscribe, getActiveTab, getView, activateTab } from './workspace';
+import { initTabBar } from './tab-bar';
+import { initToolbar, disableProve } from './toolbar';
+import { initProver } from './prover';
+import { initAbout } from './about';
 
-let view = new EditorView( {
-    state: EditorState.create( {
-        doc: localStorage.getItem( 'editorContents' ) || '',
-        extensions: [
-            lineNumbers(),
-            history(),
-            drawSelection(),
-            EditorState.allowMultipleSelections.of(true),
-            syntaxHighlighting(defaultHighlightStyle),
-            bracketMatching(),
-            closeBrackets(),
-            autocompletion(),
-            highlightActiveLine(),
-            highlightSelectionMatches(),
-            keymap.of([
-                ...closeBracketsKeymap,
-                ...defaultKeymap,
-                ...searchKeymap,
-                ...historyKeymap,
-                ...completionKeymap,
-                ...lintKeymap,
-                indentWithTab
-            ]),
-            msiril(),
-            // Listen for changes to the document and...
-            EditorView.updateListener.of( function( update ) {
-                if( update.docChanged ) {
-                    // ...store text in localStorage for recovery when reloading
-                    localStorage.setItem( 'editorContents', view.state.doc.toString() );
-                    // adjust geometry of the toolbar
-                    var gutterDimensions = document.querySelector( '#input .cm-gutters' ).getBoundingClientRect();
-                    document.getElementById( 'toolbar' ).style.paddingLeft = (gutterDimensions.width-1)+'px';
-                    // Show message to say content has changed
-                    if( document.getElementsByClassName( 'placeholder' ).length === 0 ) {
-                        document.getElementById( 'codeChanged' ).innerHTML = '(Code has changed since proof was last run)';
-                        document.getElementById( 'codeChanged' ).style.opacity = 1;
-                    }
-                }
-            })
-        ]
-    } ),
-    parent: document.getElementById( 'input' )
+// Create the editor, and the tabs it displays
+initWorkspace( {
+    parent: document.getElementById( 'input' ),
+    extensions: [
+        lineNumbers(),
+        history(),
+        drawSelection(),
+        EditorState.allowMultipleSelections.of(true),
+        syntaxHighlighting(defaultHighlightStyle),
+        bracketMatching(),
+        closeBrackets(),
+        autocompletion(),
+        highlightActiveLine(),
+        highlightSelectionMatches(),
+        keymap.of([
+            ...closeBracketsKeymap,
+            ...defaultKeymap,
+            ...searchKeymap,
+            ...historyKeymap,
+            ...completionKeymap,
+            ...lintKeymap,
+            indentWithTab
+        ]),
+        msiril()
+    ]
 } );
-// Focus and do initial layout set
-view.focus();
-var gutterDimensions = document.querySelector( '#input .cm-gutters' ).getBoundingClientRect();
-document.getElementById( 'toolbar' ).style.paddingLeft = (gutterDimensions.width-1)+'px';
 
+// Wire up the rest of the interface
+initTabBar( document.getElementById( 'tabs' ) );
+initToolbar();
+initProver( {
+    output: document.getElementById( 'sirilOutput' ),
+    codeChanged: document.getElementById( 'codeChanged' ),
+    onUnavailable: disableProve
+} );
+initAbout();
+
+// Line the tab bar and toolbar up with the editor's gutter, which widens as the line count grows
+var updateGutterOffset = function() {
+    var gutterDimensions = document.querySelector( '#input .cm-gutters' ).getBoundingClientRect();
+    document.documentElement.style.setProperty( '--gutter-offset', (gutterDimensions.width-1)+'px' );
+};
+subscribe( function( event ) {
+    if( event === 'activate' || event === 'edit' ) {
+        updateGutterOffset();
+    }
+} );
+
+// Show the initially active tab
+activateTab( getActiveTab() );
 
 // Focus editor when clicking anywhere on the input div
 document.getElementById( 'input' ).addEventListener( 'click', function() {
+    var view = getView();
     return view.hasFocus? false : view.focus();
-} );
-
-
-// Load up web worker
-var handleGsirilError = function( error ) {
-    console.error( error );
-    document.getElementById( 'sirilOutput' ).innerHTML = "<p class='placeholder'>Type or paste code into the editor to the left,<br />or open a file from your device.</p><p><span class='error'>GSiril failed to load. The editor will work but you won\'t be able to run the prover.</span></p>";
-    if( error.message ) {
-        document.querySelector( '#sirilOutput .error' ).textContent += ' ' + error.message;
-    }
-    document.getElementById( 'go' ).disabled = true;
-    document.getElementById( 'go' ).style.display = 'none';
-    if( gsirilWorker ) {
-        gsirilWorker.terminate();
-    }
-};
-
-try {
-    var gsirilWorker = new Worker( 'gsiril.worker.js' );
-    gsirilWorker.onerror = handleGsirilError;
-    gsirilWorker.onmessage = function( e ) {
-        if(typeof e.data.output == 'string' ) {
-            document.getElementById( 'sirilOutput' ).innerHTML += e.data.output + "\n";
-        }
-        else if(typeof e.data.error === 'string') {
-            document.getElementById( 'sirilOutput' ).innerHTML += '<span class="error">' + e.data.error + "</span>\n";
-        }
-        else {
-            console.log( e.data );
-        }
-    };
-} catch( e ) {
-    handleGsirilError( e );
-}
-
-// Handle click on Prove button
-document.getElementById( 'go' ).addEventListener( 'click', function() {
-    var languageSelect = document.getElementById( 'language' );
-
-    if( view.state.doc.toString() !== '' ) {
-        gsirilWorker.postMessage( {
-            input: view.state.doc.toString(),
-            args: (languageSelect.options[languageSelect.selectedIndex].value === 'msiril')? ['--msiril'] : []
-        } );
-        document.getElementById( 'sirilOutput' ).innerHTML = '';
-        document.getElementById( 'codeChanged' ).style.opacity = 0;
-    }
-} );
-
-// Handle click to open/close the info window
-var aboutDialog = document.getElementById( 'about' );
-var runAboutTransition = function( type, updateFn ) {
-    if( !document.startViewTransition ) {
-        updateFn();
-        return;
-    }
-
-    try {
-        document.startViewTransition( {
-            update: updateFn,
-            types: [ type ]
-        } );
-    } catch( error ) {
-        document.startViewTransition( updateFn );
-    }
-};
-
-var openAbout = function() {
-    if( aboutDialog.open ) {
-        return;
-    }
-
-    runAboutTransition( 'about-in', function() {
-        aboutDialog.showModal();
-    } );
-};
-
-var closeAbout = function() {
-    if( !aboutDialog.open ) {
-        return;
-    }
-
-    runAboutTransition( 'about-out', function() {
-        aboutDialog.close();
-    } );
-};
-
-document.getElementById( 'aboutButton' ).addEventListener( 'click', function() {
-    if( aboutDialog.open ) {
-        closeAbout();
-        return;
-    }
-
-    openAbout();
-} );
-
-aboutDialog.addEventListener( 'cancel', function( event ) {
-    event.preventDefault();
-    closeAbout();
-} );
-
-// Handle click on the file open button
-var openFile = document.getElementById( 'openFile' );
-document.getElementById( 'openButton' ).addEventListener( 'click', function() {
-    openFile.click();
-} );
-openFile.addEventListener( 'change', function( e ) {
-    var reader = new FileReader();
-    reader.onload = function( loaded ) {
-        var transaction = view.state.update( { changes: { from: 0, to: view.state.doc.length, insert: loaded.target.result } } );
-        view.update( [transaction] );
-    };
-    reader.onerror = function() {
-        alert( "Failed to read file.\n" + reader.error );
-        reader.abort();
-    };
-    reader.readAsText( e.target.files[0] );
-} );
-
-// Handle click on the export button
-document.getElementById( 'exportButton' ).addEventListener( 'click', function() {
-    var text = view.state.doc.toString();
-    text = text.replace( /([^\r])\n/g, "$1\r\n" );
-    var blob = new Blob( [text], { type: 'text/plain' }) ;
-    var anchor = document.createElement( 'a' );
-    anchor.download = 'composition.siril';
-    anchor.href = window.URL.createObjectURL( blob );
-    anchor.target = '_blank';
-    anchor.style.display = 'none';
-    document.body.appendChild( anchor );
-    anchor.click();
-    document.body.removeChild ( anchor );
 } );
 
 // Hide the header links if running as a PWA and overriding the titlebar

@@ -52,15 +52,135 @@ html, body {
     }
 }
 
+:root {
+    --tabs-height: 36px;
+    --gutter-offset: 27px;
+}
+
+#tabs {
+    position: absolute;
+    z-index: 11;
+    top: env(titlebar-area-height, 36px);
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    height: var(--tabs-height);
+    margin: 0;
+    padding: 0 0 0 var(--gutter-offset);
+    display: flex;
+    align-items: stretch;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: thin;
+    background-color: #E4E4E4;
+    border-bottom: 1px solid #D0CEC9;
+    white-space: nowrap;
+    user-select: none;
+    & .tab {
+        position: relative;
+        display: flex;
+        align-items: center;
+        flex: 0 0 auto;
+        max-width: 220px;
+        padding: 0 8px 0 16px;
+        font-size: 12px;
+        color: #555;
+        background-color: #E4E4E4;
+        border-right: 1px solid #D0CEC9;
+        cursor: pointer;
+        transition: background-color .2s ease, color .2s ease;
+        &:first-child {
+            border-left: 1px solid #D0CEC9;
+        }
+        & .tab-name span {
+            text-decoration: underline;
+            text-decoration-color: transparent;
+            text-underline-offset: 3px;
+            text-decoration-thickness: 2px;
+            transition: text-decoration-color .2s ease;
+        }
+        &:hover {
+            background-color: #ECECEC;
+        }
+        &.active {
+            color: #002856;
+            background-color: #F3F3F3;
+            margin-bottom: -1px;
+            & .tab-name span {
+                font-weight: bold;
+                text-decoration-color: currentColor;
+            }
+        }
+    }
+    & .tab-name {
+        display: inline-grid;
+        min-width: 0;
+        /* Reserve the bold width so tabs don't resize when (de)selected */
+        &::before {
+            content: attr(data-name);
+            font-weight: bold;
+            visibility: hidden;
+            height: 0;
+            overflow: hidden;
+        }
+        & span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding: 5px 0;
+        }
+    }
+    & .tab-rename {
+        font: inherit;
+        width: 140px;
+        padding: 1px 3px;
+        border: 1px solid #002856;
+        border-radius: 2px;
+        outline: none;
+    }
+    & .tab-close, & #newTab {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 auto;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: #666;
+        font: inherit;
+        cursor: pointer;
+        transition: background-color .2s ease, color .2s ease;
+    }
+    & .tab-close {
+        width: 18px;
+        height: 18px;
+        margin-left: 8px;
+        border-radius: 3px;
+        font-size: 14px;
+        line-height: 1;
+        &:hover {
+            background-color: rgba(0,0,0,0.1);
+            color: #000;
+        }
+    }
+    & #newTab {
+        width: 36px;
+        font-size: 18px;
+        &:hover {
+            background-color: #ECECEC;
+            color: #000;
+        }
+    }
+}
+
 #toolbar {
     position: absolute;
     z-index: 10;
-    top: env(titlebar-area-height, 36px);
+    top: calc(env(titlebar-area-height, 36px) + var(--tabs-height));
     left: 0;
     width: 60%;
     box-sizing: border-box;
     height: 36px;
-    padding: 0 0 0 20px;
+    padding: 0 0 0 var(--gutter-offset);
     margin: 0;
     background-color: #F3F3F3;
     border-bottom: 1px solid #E0DED9;
@@ -172,14 +292,14 @@ html, body {
 #input {
     width: 60%;
     left: 0;
-    padding-top: calc(2*env(titlebar-area-height, 36px));
+    padding-top: calc(env(titlebar-area-height, 36px) + var(--tabs-height) + 36px);
     border-right: 1px solid rgba(0,0,0,0.1);
 }
 
 #output {
     width: 40%;
     left: 60%;
-    padding-top: env(titlebar-area-height, 36px);
+    padding-top: calc(env(titlebar-area-height, 36px) + var(--tabs-height));
     padding-bottom: 36px;
     background-color: #FCFCFC;
     & h2 {
@@ -209,7 +329,7 @@ html, body {
 }
 
 #about {
-    --about-offset: calc(env(titlebar-area-height, 36px) + 39px);
+    --about-offset: calc(env(titlebar-area-height, 36px) + var(--tabs-height) + 39px);
     position: fixed;
     left: 50%;
     top: var(--about-offset);
@@ -316,6 +436,10 @@ html, body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+    #tabs .tab, #tabs .tab .tab-name span, #tabs .tab-close, #tabs #newTab {
+        transition-duration: 1ms;
+    }
+
     #about {
         transition-duration: 1ms, 1ms, 1ms, 1ms;
 
@@ -338,4 +462,11 @@ html, body {
 }
 .cm-editor {
     height: 100%;
+}
+.cm-gutters {
+    min-width: 28px;
+    box-sizing: border-box;
+}
+.cm-lineNumbers {
+    flex-grow: 1;
 }

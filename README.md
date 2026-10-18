@@ -30,7 +30,7 @@ for SDK setup and standalone testing.
 
 Source code for the various parts of the project are in the `/src` folder. Edit files, and then run `npm run build` to build them and deposit distributable versions into the `/web` folder. To watch for changes and automatically rebuild files, run `npm run watch`.
 
-To test the code, run `npm start` which will launch a web server that you can open at <http://localhost:8080>.
+To test the code, run `npm start` which will launch a web server that you can open at <http://localhost:8080>. Unit tests live in the `/test` folder and can be run with `npm test` (or `npm run test:js` and `npm run test:gsiril` individually).
 
 To update the project's dependencies with new minor releases, run `npm update --save-dev`.
 
