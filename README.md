@@ -10,7 +10,7 @@ Having a JavaScript version of the program also allows for it to be easily distr
 
 ## Output
 
-There is a Web Worker in the `./src/gsiril/` folder that could be used in your own project.
+Files are in the `./src/gsiril/` folder that could be used in your own project. The README in that folder describes how to build them if required.
 
 The remainder of the project is a simple single-page web app which glues together this Web Worker with the in-browser code editor [(Codemirror)](https://codemirror.net/), which supports syntax highlighting, line numbers, etc.
 
@@ -20,11 +20,17 @@ The results are published online at [bobwallis.github.io/CompositionProver/](htt
 
 ## Development
 
-I use Visual Studio Code to develop in, but the only real dependency is NPM.
+I use Visual Studio Code to develop in. Building requires Node.js/NPM, Git,
+GNU make 4.3 or newer, and Emscripten SDK 3.1.64. The devcontainer supplies
+the native build tools and SDK.
+
+After installing the NPM dependencies with `npm install`, run `npm run setup:gsiril`
+once to download the pinned GSiril sources. See the [GSiril build instructions](src/gsiril/README.md)
+for SDK setup and standalone testing.
 
 Source code for the various parts of the project are in the `/src` folder. Edit files, and then run `npm run build` to build them and deposit distributable versions into the `/web` folder. To watch for changes and automatically rebuild files, run `npm run watch`.
 
-To test the code, run `npm start` which will launch a web server that you can open at <http://localhost:8080>. If you are using Visual Studio Code you can use the 'Run & Debug' functionality.
+To test the code, run `npm start` which will launch a web server that you can open at <http://localhost:8080>.
 
 To update the project's dependencies with new minor releases, run `npm update --save-dev`.
 

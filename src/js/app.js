@@ -64,8 +64,22 @@ document.getElementById( 'input' ).addEventListener( 'click', function() {
 
 
 // Load up web worker
+var handleGsirilError = function( error ) {
+    console.error( error );
+    document.getElementById( 'sirilOutput' ).innerHTML = "<p class='placeholder'>Type or paste code into the editor to the left,<br />or open a file from your device.</p><p><span class='error'>GSiril failed to load. The editor will work but you won\'t be able to run the prover.</span></p>";
+    if( error.message ) {
+        document.querySelector( '#sirilOutput .error' ).textContent += ' ' + error.message;
+    }
+    document.getElementById( 'go' ).disabled = true;
+    document.getElementById( 'go' ).style.display = 'none';
+    if( gsirilWorker ) {
+        gsirilWorker.terminate();
+    }
+};
+
 try {
     var gsirilWorker = new Worker( 'gsiril.worker.js' );
+    gsirilWorker.onerror = handleGsirilError;
     gsirilWorker.onmessage = function( e ) {
         if(typeof e.data.output == 'string' ) {
             document.getElementById( 'sirilOutput' ).innerHTML += e.data.output + "\n";
@@ -78,8 +92,7 @@ try {
         }
     };
 } catch( e ) {
-    document.getElementById( 'sirilOutput' ).innerHTML = "<p class='placeholder'>Type or paste code into the editor to the left,<br />or open a file from your device.</p><p><span class='error'>GSiril failed to load. The editor will work but you won\'t be able to run the prover.</span></p>";
-    document.getElementById( 'go' ).style.display = 'none';
+    handleGsirilError( e );
 }
 
 // Handle click on Prove button

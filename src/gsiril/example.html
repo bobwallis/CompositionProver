@@ -12,18 +12,32 @@
 		<hr />
 		<div id="output" style="font-family: monospace; white-space: pre;"></div>
 		<script>
-			var gsirilWorker = new Worker( 'gsiril.worker.js' );
-			gsirilWorker.onmessage = function( e ) {
-				if(typeof e.data.output == 'string' ) {
-					document.getElementById('output').innerHTML += e.data.output + "\n";
-				}
-				else if(typeof e.data.error === 'string') {
-					document.getElementById('output').innerHTML += '<span style="color:red">' + e.data.error + "</span>\n"
-				}
-				else {
-					console.log(e.data);
+			var handleGsirilError = function( error ) {
+				console.error( error );
+				document.getElementById( 'output' ).textContent = 'GSiril failed to load. ' + error.message;
+				document.getElementById( 'go' ).disabled = true;
+				if( gsirilWorker ) {
+					gsirilWorker.terminate();
 				}
 			};
+
+			try {
+				var gsirilWorker = new Worker( 'gsiril.worker.js' );
+				gsirilWorker.onerror = handleGsirilError;
+				gsirilWorker.onmessage = function( e ) {
+					if(typeof e.data.output == 'string' ) {
+						document.getElementById('output').innerHTML += e.data.output + "\n";
+					}
+					else if(typeof e.data.error === 'string') {
+						document.getElementById('output').innerHTML += '<span style="color:red">' + e.data.error + "</span>\n"
+					}
+					else {
+						console.log(e.data);
+					}
+				};
+			} catch( error ) {
+				handleGsirilError( error );
+			}
 
 			document.getElementById( 'go' ).addEventListener( 'click', function() {
 				gsirilWorker.postMessage(	{

@@ -13,6 +13,8 @@ var urlsToCache = [
     self.registration.scope + 'favicon.svg',
     self.registration.scope + 'style.css',
     self.registration.scope + 'gsiril.worker.js',
+    self.registration.scope + 'gsiril.js',
+    self.registration.scope + 'gsiril.wasm',
     self.registration.scope + 'app.js',
     self.registration.scope + 'manifest.json'
 ];
