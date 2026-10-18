@@ -53,7 +53,7 @@ export function save() {
     if( activeTab && view ) {
         activeTab.state = view.state;
     }
-    saveTabRecords( localStorage, tabs.map( function( tab ) {
+    return saveTabRecords( localStorage, tabs.map( function( tab ) {
         return { id: tab.id, name: tab.name, content: tab.state.doc.toString(), language: tab.language, dirty: tab.dirty };
     } ), activeTab? activeTab.id : null );
 }

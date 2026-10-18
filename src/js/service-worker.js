@@ -4,6 +4,7 @@ var urlsToCache = [
     self.registration.scope + 'about.svg',
     self.registration.scope + 'prove.svg',
     self.registration.scope + 'export.svg',
+    self.registration.scope + 'share.svg',
     self.registration.scope + 'open.svg',
     self.registration.scope + 'androidicon-192x192.png',
     self.registration.scope + 'androidicon-512x512.png',

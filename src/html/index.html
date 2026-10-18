@@ -24,6 +24,7 @@
       <img id="openButton" src="open.svg" alt="Open" title="Open a text file from your device">
       <input id="openFile" type="file" hidden>
       <img id="exportButton" src="export.svg" alt="Export" title="Export editor contents to a file">
+      <img id="shareButton" src="share.svg" alt="Share" title="Copy share link" role="button" tabindex="0" aria-label="Copy share link">
       <div class="sep"></div>
       <div class="select_wrapper">
         <select id="language" title="Set language to GSiril, or backwards-compatible MicroSiril">
@@ -33,6 +34,14 @@
       </div>
       <input id="go" value="Prove" title="Prove touch" type="submit">
     </div>
+    <div id="shareStatus" role="status"></div>
+    <dialog id="shareDialog" aria-labelledby="shareTitle">
+      <h2 id="shareTitle">Copy share link</h2>
+      <p>Automatic copying is unavailable. Copy the selected link below.</p>
+      <label for="shareLink">Composition link</label>
+      <textarea id="shareLink" rows="4" readonly></textarea>
+      <button id="closeShare" type="button">Close</button>
+    </dialog>
 		<div id="input"></div>
     <div id="output">
       <h2>Output <span id="codeChanged"></span></h2>

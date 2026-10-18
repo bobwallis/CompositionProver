@@ -18,6 +18,30 @@ The results are published online at [bobwallis.github.io/CompositionProver/](htt
 
 ![Composition Prover screenshot](screenshots/1.png)
 
+## Sharing compositions
+
+Click **Share** in the toolbar to copy a link containing a snapshot of the
+active tab's composition text, title, and language. If automatic clipboard
+access is unavailable or denied, a dialog offers the link for manual copying.
+Sharing does not mark the tab as exported, and later edits do not change links
+you have already sent.
+
+Links use URL fragment parameters (`#...`), not query/GET parameters (`?...`).
+
+Ensure characters are encoded.
+
+```text
+https://bobwallis.github.io/CompositionProver/#v=1&name=touch.siril&language=msiril&content=prove+%28%2B1%29
+```
+
+| Parameter | Meaning |
+| --- | --- |
+| `v` | Format version, currently `1`. Omitting it also means version 1. |
+| `content` | Required composition text; an empty value is allowed. |
+| `name` | Tab title; defaults to `comp.siril` when omitted. |
+| `language` | `msiril` or `gsiril`; defaults to `msiril` when omitted. |
+
+
 ## Development
 
 I use Visual Studio Code to develop in. Building requires Node.js/NPM, Git,

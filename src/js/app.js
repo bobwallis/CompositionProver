@@ -7,11 +7,12 @@ import { searchKeymap, highlightSelectionMatches } from '@codemirror/search';
 import { lintKeymap } from "@codemirror/lint";
 import { bracketMatching, defaultHighlightStyle, syntaxHighlighting } from '@codemirror/language';
 import { msiril } from "./lang-msiril";
-import { initWorkspace, subscribe, getActiveTab, getView, activateTab } from './workspace';
+import { initWorkspace, subscribe, getActiveTab, getTabs, getView, activateTab, addTab, save } from './workspace';
 import { initTabBar } from './tab-bar';
-import { initToolbar, disableProve } from './toolbar';
+import { initToolbar, disableProve, showShareStatus } from './toolbar';
 import { initProver } from './prover';
 import { initAbout } from './about';
+import { parseShareLink } from './share-link';
 
 // Create the editor, and the tabs it displays
 initWorkspace( {
@@ -63,6 +64,39 @@ subscribe( function( event ) {
 
 // Show the initially active tab
 activateTab( getActiveTab() );
+
+function importShareLink() {
+    var record;
+    try {
+        record = parseShareLink( window.location.hash );
+    } catch( error ) {
+        alert( 'Unable to open shared composition.\n' + error.message );
+        return;
+    }
+    if( !record ) { return; }
+    var content = EditorState.create( { doc: record.content } ).doc.toString();
+    var duplicate = getTabs().find( function( tab ) {
+        return tab.name === record.name && tab.language === record.language && tab.state.doc.toString() === content;
+    } );
+    if( duplicate ) {
+        activateTab( duplicate );
+    }
+    else {
+        addTab( record );
+    }
+    if( !save() ) {
+        alert( 'The shared composition is open, but could not be saved locally. The link has been kept in the address bar so you can recover it. Export the composition to keep a copy.' );
+        return;
+    }
+    var url = new URL( window.location.href );
+    url.hash = '';
+    window.history.replaceState( window.history.state, '', url.href );
+    if( duplicate ) {
+        showShareStatus( 'Composition already open. Duplicate not imported.' );
+    }
+}
+window.addEventListener( 'hashchange', importShareLink );
+importShareLink();
 
 // Focus editor when clicking anywhere on the input div
 document.getElementById( 'input' ).addEventListener( 'click', function() {

@@ -1,8 +1,42 @@
-// The toolbar: open, export, language selection and the Prove button.
+// The toolbar: open, export, sharing, language selection and the Prove button.
 import { subscribe, getActiveTab, openDocument, setLanguage, markClean } from './workspace';
 import { prove } from './prover';
+import { createShareLink } from './share-link';
 
 var proveButton;
+var shareStatusTimeout;
+
+export function showShareStatus( message ) {
+    var status = document.getElementById( 'shareStatus' );
+    clearTimeout( shareStatusTimeout );
+    status.textContent = message;
+    if( message ) {
+        shareStatusTimeout = setTimeout( function() { status.textContent = ''; }, 4000 );
+    }
+}
+
+async function copyShareLink() {
+    var tab = getActiveTab();
+    var link = createShareLink( window.location.href, {
+        name: tab.name, language: tab.language, content: tab.state.doc.toString()
+    } );
+    showShareStatus( '' );
+    if( navigator.clipboard && navigator.clipboard.writeText ) {
+        try {
+            await navigator.clipboard.writeText( link );
+            showShareStatus( 'Share link copied.' );
+            return;
+        } catch( error ) {
+            console.error( 'Unable to copy share link.', error );
+        }
+    }
+    var dialog = document.getElementById( 'shareDialog' );
+    var field = document.getElementById( 'shareLink' );
+    field.value = link;
+    dialog.showModal();
+    field.focus();
+    field.select();
+}
 
 function exportTab( tab ) {
     var text = tab.state.doc.toString().replace( /([^\r])\n/g, "$1\r\n" );
@@ -41,6 +75,16 @@ export function initToolbar() {
     var openFile = document.getElementById( 'openFile' );
     var languageSelect = document.getElementById( 'language' );
     proveButton = document.getElementById( 'go' );
+    document.getElementById( 'shareButton' ).addEventListener( 'click', copyShareLink );
+    document.getElementById( 'shareButton' ).addEventListener( 'keydown', function( event ) {
+        if( event.key === 'Enter' || event.key === ' ' ) {
+            event.preventDefault();
+            event.currentTarget.click();
+        }
+    } );
+    document.getElementById( 'closeShare' ).addEventListener( 'click', function() {
+        document.getElementById( 'shareDialog' ).close();
+    } );
 
     document.getElementById( 'openButton' ).addEventListener( 'click', function() {
         openFile.click();

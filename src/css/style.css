@@ -279,6 +279,37 @@ html, body {
     }
 }
 
+#shareStatus {
+    position: fixed;
+    z-index: 12;
+    bottom: 16px;
+    left: 16px;
+    padding: 8px 12px;
+    background: #002856;
+    color: #FFF;
+    border-radius: 3px;
+    pointer-events: none;
+    &:empty {
+        padding: 0;
+    }
+}
+
+#shareDialog {
+    width: min(450px, calc(100% - 32px));
+    box-sizing: border-box;
+    border: 1px solid #AAA;
+    padding: 20px;
+    & h2 {
+        margin-top: 0;
+    }
+    & textarea {
+        display: block;
+        box-sizing: border-box;
+        width: 100%;
+        margin: 8px 0 16px;
+    }
+}
+
 #input, #output {
     position: absolute;
     top: 0;
